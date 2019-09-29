@@ -11,12 +11,22 @@ class Login extends StatelessWidget {
         padding: EdgeInsets.all(20.0),
         child: Column(
           children: <Widget>[
-            TextField(),
-            SizedBox(height: 20.0,),
+            SizedBox(
+              height: 20.0,
+            ),
             TextField(
               decoration: InputDecoration(
-                hintText: "请输入账号"
+                border: OutlineInputBorder(),
+                hintText: "请输入账号",
+                labelText: "账号",
               ),
+            ),
+            TextField(
+              obscureText: true, //密码框
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "请输入密码",
+                  labelText: "密码"),
             )
           ],
         ),
@@ -24,4 +34,3 @@ class Login extends StatelessWidget {
     );
   }
 }
-
