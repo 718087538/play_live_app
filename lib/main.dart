@@ -9,14 +9,24 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Im Title222'),
+          title: Text('Im Title32'),
         ),
-          body: Center(
-            child: RaisedButton(
-              child: Text('返回'),
-            ),
-          ),
+          body: new RoomList()
       )
     );
   }
+}
+
+class RoomList extends StatelessWidget{
+  @override
+  Widget build (BuildContext context){
+    return ListView.builder(
+        itemCount: 100,
+        itemExtent: 100.0, //强制高度为50.0
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(title: Text("$index"));
+        }
+    );
+  }
+
 }
