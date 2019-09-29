@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 
-class Login extends StatelessWidget{
+class Login extends StatelessWidget {
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('搜索页面'),
+        title: Text('请登录'),
       ),
-      body: Box(),
+      body: Padding(
+        padding: EdgeInsets.all(20.0),
+        child: Column(
+          children: <Widget>[
+            TextField(),
+            SizedBox(height: 20.0,),
+            TextField(
+              decoration: InputDecoration(
+                hintText: "请输入账号"
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
 
-class Box extends StatelessWidget{
-  @override
-  Widget build(BuildContext context) {
-    
-  }
-}

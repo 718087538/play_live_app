@@ -11,7 +11,6 @@ class MyApp extends StatelessWidget {
         //注册路由表
         routes: {
           "login": (context) => Login(),
-
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
 //          },
@@ -50,7 +49,7 @@ class RoomBox extends StatelessWidget {
         ),
         onPressed: () {
 //          Navigator.pushNamed(context, "Login");
-        //route跳转可行
+          //route跳转可行
           Navigator.of(context)
               .push(MaterialPageRoute(builder: (BuildContext context) {
             return Login();
