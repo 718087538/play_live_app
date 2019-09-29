@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
+
+import 'test.dart';
 
 void main() => runApp(new MyApp());
 
@@ -10,7 +11,6 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         //注册路由表
         routes: {
-          "login": (context) => Login(),
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
 //          },
