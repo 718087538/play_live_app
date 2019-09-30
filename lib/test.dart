@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:uuid/uuid.dart';
+var uuid = new Uuid();
+
+
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -87,13 +91,15 @@ class _MyForm extends State<MyForm> {
 }
 
 fetchData() async {
-  // 请求接口
-  var response = await http.get("https://cnodejs.org/api/v1/topics");
-  // 将接口返回数据转成json
-  var json = await jsonDecode(response.body);
-  // 更新state，通知ui更新
-  print(json['data'][0]['id']);
-//  setState(() {
-//    this.data = json['data'];
-//  });
+  var url = 'http://192.168.0.200:7001/api/svg';
+  var response = await http.post(url, body: {'uuid': '987654147'});
+  print('Response status: ${response.statusCode}');
+//  print('Response body: ${response.body}');
+  var _data = await jsonDecode(  response.body);
+  print('Response body: ${_data["data"]["svgCode"]}');//可以获得svg图片
+
+//  var url = 'http://example.com/whatsit/create';
+//  var response = await http.post(url, body: {'name': 'doodle', 'color': 'blue'});
+//  print('Response status: ${response.statusCode}');
+//  print('Response body: ${response.body}');
 }
