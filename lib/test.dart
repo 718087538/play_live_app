@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-Dio dio = new Dio();
-
-
-
-
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    fetchData();
     return Scaffold(
         appBar: AppBar(
           title: Text('测试页'),
@@ -55,9 +51,10 @@ class _MyForm extends State<MyForm> {
                   _username.text = value;
                 });
               }),
-          SizedBox(height: 20.0),
 
-            TextField(
+          SizedBox(height: 20.0),//高度20的盒子,可以当空行用
+
+          TextField(
               obscureText: true, //密码框
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
@@ -68,25 +65,19 @@ class _MyForm extends State<MyForm> {
                   //把文本框的值实时赋给一个变量
                   this._password = value;
                 });
-              },
-          ),
-
+              }),
           SizedBox(height: 20.0),
           Container(
             width: double.infinity, //让按钮宽度自适应
             height: 50.0,
             child: RaisedButton(
               child: Text("登录"),
-               onPressed: () {
-
-//                print(this._username.text); //打印输入框的值
-//                print(this._password); //打印输入框的值.密码不用加.text
-               loginApp();
+              onPressed: () {
+                print(this._username.text); //打印输入框的值
+                print(this._password); //打印输入框的值.密码不用加.text
               },
               color: Colors.blue,
               textColor: Colors.white,
-
-
             ),
           )
         ],
@@ -95,17 +86,14 @@ class _MyForm extends State<MyForm> {
   }
 }
 
-
-void loginApp() async {
-  try {
-    Response response;
-    Dio dio = Dio();
-    response = await dio.post("http://192.168.0.200:7001/api/svg", data: {"uuid": 1234});
-    print(response.data.toString());
-// 请求参数也可以通过对象传递，上面的代码等同于：
-//    response = await dio.get("/test", queryParameters: {"id": 12, "name": "wendu"});
-//    print(response.data.toString());
-  } catch (e) {
-    print(e);
-  }
+fetchData() async {
+  // 请求接口
+  var response = await http.get("https://cnodejs.org/api/v1/topics");
+  // 将接口返回数据转成json
+  var json = await jsonDecode(response.body);
+  // 更新state，通知ui更新
+  print(json['data'][0]['id']);
+//  setState(() {
+//    this.data = json['data'];
+//  });
 }
