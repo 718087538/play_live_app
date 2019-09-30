@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
+Dio dio = new Dio();
+
+
+
+
 
 class Login extends StatelessWidget {
   @override
@@ -71,16 +77,35 @@ class _MyForm extends State<MyForm> {
             height: 50.0,
             child: RaisedButton(
               child: Text("登录"),
-              onPressed: () {
-                print(this._username.text); //打印输入框的值
-                print(this._password); //打印输入框的值.密码不用加.text
+               onPressed: () {
+
+//                print(this._username.text); //打印输入框的值
+//                print(this._password); //打印输入框的值.密码不用加.text
+               loginApp();
               },
               color: Colors.blue,
               textColor: Colors.white,
+
+
             ),
           )
         ],
       ),
     );
+  }
+}
+
+
+void loginApp() async {
+  try {
+    Response response;
+    Dio dio = Dio();
+    response = await dio.post("http://192.168.0.200:7001/api/svg", data: {"uuid": 1234});
+    print(response.data.toString());
+// 请求参数也可以通过对象传递，上面的代码等同于：
+//    response = await dio.get("/test", queryParameters: {"id": 12, "name": "wendu"});
+//    print(response.data.toString());
+  } catch (e) {
+    print(e);
   }
 }
