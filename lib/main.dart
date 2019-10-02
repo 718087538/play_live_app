@@ -10,11 +10,13 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
         title: 'Flutter Demo',
         //注册路由表
-        routes: {
+        routes:{
+          "home_page":(context)=>MyApp(),
+//          "new_page":(context)=>EchoRoute(),
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
 //          },
-        },
+        } ,
         home: Scaffold(
             appBar: AppBar(
               title: Text('Im Tit221e22'),
