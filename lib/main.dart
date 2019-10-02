@@ -90,9 +90,9 @@ goPlay(context) async{
 }
 
 getList() async{
-  print("这里应该请求直播列表");
+//  print("这里应该请求直播列表");
   var url = 'http://192.168.0.200:7001/api/live/room';
   var response = await http.get(url);
   var data = await jsonDecode(response.body);
-  print('Response body: ${data["data"]["roomInfo"]}');
+//  print('Response body: ${data["data"]["roomInfo"]}');
 }
