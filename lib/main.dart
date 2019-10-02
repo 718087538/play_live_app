@@ -1,3 +1,4 @@
+import 'package:congra_app/playRoom.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +15,8 @@ class MyApp extends StatelessWidget {
         routes:{
           "home_page":(context)=>MyApp(),
           "login_page":(context)=>Login(),
+          "play_room":(context)=>PlayRoom(),
+
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
 //          },
@@ -77,6 +80,6 @@ goPlay(context) async{
     Navigator.of(context).pushNamed("login_page");
   }else{
     print("已登录");
-
+    Navigator.of(context).pushNamed("play_room");
   }
 }
