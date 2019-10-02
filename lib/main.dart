@@ -1,6 +1,8 @@
 import 'package:congra_app/playRoom.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 import 'test.dart';
 
@@ -9,6 +11,8 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    getList();
+
     return new MaterialApp(
         title: 'Flutter Demo',
         //注册路由表
@@ -31,6 +35,7 @@ class MyApp extends StatelessWidget {
 
 //列表
 class RoomList extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
@@ -82,4 +87,12 @@ goPlay(context) async{
     print("已登录");
     Navigator.of(context).pushNamed("play_room");
   }
+}
+
+getList() async{
+  print("这里应该请求直播列表");
+  var url = 'http://192.168.0.200:7001/api/live/room';
+  var response = await http.get(url);
+  var data = await jsonDecode(response.body);
+  print('Response body: ${data["data"]["roomInfo"]}');
 }
