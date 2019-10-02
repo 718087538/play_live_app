@@ -32,10 +32,18 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     {'title':"123456"},
     {'title':"123456"},
   ];
-  
-
+  void _getCategory()async{
+    var url = 'http://192.168.0.200:7001/api/live/room';
+    var response = await http.get(url);
+      var data = await jsonDecode(response.body);
+      setState(() {
+        list =data["data"]["roomInfo"];
+      });
+  }
   @override
   Widget build(BuildContext context) {
+    _getCategory();
+
     return Container(
       child: ListView.builder(
         itemCount:list.length,
@@ -54,6 +62,7 @@ getList() async{
   var response = await http.get(url);
   var data = await jsonDecode(response.body);
   var list = data["data"]["roomInfo"];
+
 //  print('打印列表y: ${list}');
     list.forEach((item)=>print(item));
 }
@@ -66,6 +75,7 @@ Widget _leftInkWel(list,int index){
       child: Column(
   children: <Widget>[
     Text(list[index]["title"]),
+    Image.network(list[index]["imgUrl"]),
   ]),
 //      child: Text(list[index]["title"]),
     ),
