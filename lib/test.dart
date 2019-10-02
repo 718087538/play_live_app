@@ -2,6 +2,7 @@ import 'package:congra_app/playRoom.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 class Login extends StatelessWidget {
@@ -26,6 +27,9 @@ class LeftCategoryNav extends StatefulWidget {
 
 
 class _LeftCategoryNavState extends State<LeftCategoryNav> {
+
+
+
   List list=[
     {'title':"123456"},
     {'title':"123456"},
@@ -48,7 +52,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       child: ListView.builder(
         itemCount:list.length,
         itemBuilder: (context,index){
-          return _leftInkWel(list,index);
+          return _leftInkWel(list,index,context);
         },
       ),
     );
@@ -67,17 +71,41 @@ getList() async{
     list.forEach((item)=>print(item));
 }
 
-Widget _leftInkWel(list,int index){
+Widget _leftInkWel(list,int index,context){
+
   return InkWell(
-    onTap: (){},
+    //既然不能路由传参,那就设置缓存喽,到时候再研究路由传参.
+    onTap: () async{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      print("我被点击了");
+
+      String counter = "100000000000000";
+      await prefs.setString('counter', counter);
+      await print(prefs.get('counter') + "读取+替代路由传参");
+
+      //设置完缓存就可以去另外的页面读取缓存了
+      Navigator.of(context)
+              .push(MaterialPageRoute(builder: (BuildContext context) {
+            return PlayRoom();
+          }));
+
+    },
     child: Container(
-      height: 100.0,
+      height: 130.0,
+      width: 300.0,
       child: Column(
   children: <Widget>[
-    Text(list[index]["title"]),
-    Image.network(list[index]["imgUrl"]),
+    Text("直播间名: "+list[index]["title"]),
+    Text("直播分类: "+list[index]["description"]),
+    Image.network(list[index]["imgUrl"],
+      fit: BoxFit.fill,
+    ),
   ]),
 //      child: Text(list[index]["title"]),
     ),
   );
 }
+
+
+
+

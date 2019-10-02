@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayRoom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-//    fetchData();
+    getHuanCun();
       return Scaffold(
           appBar: AppBar(
             title: Text('直播间'),
@@ -28,4 +29,8 @@ class homePag extends StatelessWidget{
     );
   }
 }
+getHuanCun() async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  await print(prefs.get('counter') + "读取缓存上一页缓存");
 
+}
