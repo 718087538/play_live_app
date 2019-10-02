@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'test.dart';
 
@@ -12,14 +13,14 @@ class MyApp extends StatelessWidget {
         //注册路由表
         routes:{
           "home_page":(context)=>MyApp(),
-//          "new_page":(context)=>EchoRoute(),
+          "login_page":(context)=>Login(),
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
 //          },
         } ,
         home: Scaffold(
             appBar: AppBar(
-              title: Text('Im Tit221e22'),
+              title: Text('空格教育'),
             ),
             body: new RoomList()));
   }
@@ -52,15 +53,30 @@ class RoomBox extends StatelessWidget {
         onPressed: () {
 //          Navigator.pushNamed(context, "Login");
           //route跳转可行
-          Navigator.of(context)
-              .push(MaterialPageRoute(builder: (BuildContext context) {
-            return Login();
-          }));
+//          Navigator.of(context)
+//              .push(MaterialPageRoute(builder: (BuildContext context) {
+//            return Login();
+//          }));
+          goPlay(context);
+
         },
       ),
       margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
       width: 240.0,
       //高度,list已经设置了
     );
+  }
+}
+
+goPlay(context) async{
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+//  await print("查看token"+prefs.get('token'));
+  //如果找不到token就代表没有登录,则跳到登录.
+  if(prefs.get('token')== "" ||prefs.get('token')== null){
+    print("没token,前往登录");
+    Navigator.of(context).pushNamed("login_page");
+  }else{
+    print("已登录");
+
   }
 }
