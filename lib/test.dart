@@ -61,14 +61,14 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
 
 getList() async{
-  print("这里应该请求直播列表2222");
+//  print("这里应该请求直播列表2222");
   var url = 'http://192.168.0.200:7001/api/live/room';
   var response = await http.get(url);
   var data = await jsonDecode(response.body);
   var list = data["data"]["roomInfo"];
 
 //  print('打印列表y: ${list}');
-    list.forEach((item)=>print(item));
+//    list.forEach((item)=>print(item));
 }
 
 Widget _leftInkWel(list,int index,context){
@@ -81,7 +81,7 @@ Widget _leftInkWel(list,int index,context){
 
       String counter = "100000000000000";
       await prefs.setString('counter', counter);
-      await print(prefs.get('counter') + "读取+替代路由传参");
+//      await print(prefs.get('counter') + "读取+替代路由传参");
 
       //设置完缓存就可以去另外的页面读取缓存了
       Navigator.of(context)
