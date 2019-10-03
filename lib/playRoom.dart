@@ -6,7 +6,6 @@ import 'package:fijkplayer/fijkplayer.dart';
 class PlayRoom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-//    getHuanCun();
       return Scaffold(
           appBar: AppBar(
             title: Text('直播间'),
@@ -16,54 +15,28 @@ class PlayRoom extends StatelessWidget {
 }
 
 class VideoScreen extends StatefulWidget {
-  final String url;
-
-  VideoScreen({@required this.url});
-
   @override
   _VideoScreenState createState() => _VideoScreenState();
 }
 
 class _VideoScreenState extends State<VideoScreen> {
   final FijkPlayer player = FijkPlayer();
-
-  _VideoScreenState();
-
   @override
   void initState() {
     super.initState();
-    player.setDataSource("rtmp://a-play.congraedu.cn/live/1?auth_key=1570078863-0-0-2839f78549953ad5cb00a19199b8b546", autoPlay: true).catchError((e) {
-      FijkException fe = e as FijkException;
-      //setState(() {
-      //  errorMsg = fe.message;
-      //});
-      print("setDataSource exception: $fe");
-    }, test: (e) => e is FijkException);
+    player.setDataSource("rtmp://202.69.69.180:443/webcast/bshdlive-pc", autoPlay: true).catchError((e) {
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:  AppBar(
-        title: Text('直播页'),
-      ),
-      body: Container(
+    return  Container(
         child: FijkVolumeWatcher(
             watcher: null,
             showToast: true,
             child: FijkView(
               player: player,
-              // panelBuilder: simplestUI,
-              // panelBuilder: (FijkPlayer player, BuildContext context,
-              //     Size viewSize, Rect texturePos) {
-              //   return CustomFijkPanel(
-              //       player: player,
-              //       buildContext: context,
-              //       viewSize: viewSize,
-              //       texturePos: texturePos);
-              // },
             )),
-      ),
     );
   }
 
@@ -73,7 +46,9 @@ class _VideoScreenState extends State<VideoScreen> {
     player.release();
   }
 }
+getPlayRoom() async{
 
+}
 
 //class homePag extends StatelessWidget{
 //  @override
