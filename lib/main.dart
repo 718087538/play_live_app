@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'test.dart';
 import 'playRoom.dart';
+import 'test3.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
           "home_page":(context)=>MyApp(),
           "login_page":(context)=>Login(),
           "play_room":(context)=>PlayRoom(),
+          "chat":(context)=>Chat(),
 
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
@@ -79,13 +81,14 @@ goPlay(context) async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
 //  await print("查看token"+prefs.get('token'));
   //如果找不到token就代表没有登录,则跳到登录.
-  if(prefs.get('ssss')== "" ||prefs.get('ssss')== null){
-    print("没token,前往登录");
-    Navigator.of(context).pushNamed("login_page");
-  }else{
-    print("已登录");
-    Navigator.of(context).pushNamed("play_room");
-  }
+//  if(prefs.get('ssss')== "" ||prefs.get('ssss')== null){
+//    print("没token,前往登录");
+//    Navigator.of(context).pushNamed("login_page");
+//  }else{
+//    print("已登录");
+//    Navigator.of(context).pushNamed("play_room");
+//  }
+Navigator.of(context).pushNamed("chat");
 }
 
 getList() async{
