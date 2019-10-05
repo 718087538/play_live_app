@@ -4,8 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 
 class Chat extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
+
     return new MaterialApp(
         title: "dsda",
         home: Scaffold(
@@ -17,6 +19,7 @@ class Chat extends StatelessWidget {
 }
 
 class msgList extends StatefulWidget {
+
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -81,6 +84,7 @@ class _MyAppState extends State<msgList> {
   }
 
   disconnect(String identifier) async {
+    print("断开聊天");
     await manager.clearInstance(sockets[identifier]);
     setState(() => _isProbablyConnected[identifier] = false);
   }

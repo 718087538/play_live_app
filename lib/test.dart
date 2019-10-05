@@ -20,6 +20,7 @@ class Login extends StatelessWidget {
             body: new LeftCategoryNav ()));
   }
 }
+
 //左侧导航菜单
 class LeftCategoryNav extends StatefulWidget {
   _LeftCategoryNavState createState() => _LeftCategoryNavState();
