@@ -71,7 +71,7 @@ class _MyAppState extends State<msgList> {
     socket.on("type:number", (data) => pprint("type:number | $data"));
     socket.on("type:object", (data) => pprint("type:object | $data"));
     socket.on("type:list", (data) => pprint("type:list | $data"));
-    socket.on("message", (data) => pprint(data));
+    socket.on("chat", (data) => pprint(data));
     socket.connect();
     sockets[identifier] = socket;
   }
@@ -89,14 +89,7 @@ class _MyAppState extends State<msgList> {
     if (sockets[identifier] != null) {
       pprint("sending message from '$identifier'...");
       sockets[identifier].emit("chat", [
-//          {"target": "1"},
-//          {
-//            "payload": {
-//              "msg": "100000000000000000000000",
-//              "name": "kkkk",
-//              "uid": "5d903b209ab56f70dcd03ff9",
-//            }
-//          }
+
         {
           "target": "1",
           "payload": {
