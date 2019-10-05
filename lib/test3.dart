@@ -6,14 +6,13 @@ import 'package:adhara_socket_io/adhara_socket_io.dart';
 class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new  MaterialApp(
+    return new MaterialApp(
         title: "dsda",
         home: Scaffold(
             appBar: AppBar(
               title: Text('聊天室'),
             ),
-            body: new msgList())
-    );
+            body: new msgList()));
   }
 }
 
@@ -21,7 +20,9 @@ class msgList extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
+
 const String URI = "https://admin.congraedu.cn/api/chat";
+
 class _MyAppState extends State<msgList> {
   List<String> toPrint = ["trying to connect"];
   SocketIOManager manager;
@@ -41,9 +42,9 @@ class _MyAppState extends State<msgList> {
 
     setState(() => _isProbablyConnected[identifier] = true);
     SocketIO socket = await manager.createInstance(SocketOptions(
-      //Socket IO server URI
+        //Socket IO server URI
         URI,
-        nameSpace: (identifier == "namespaced")?"/adhara":"/",
+        nameSpace: (identifier == "namespaced") ? "/adhara" : "/",
         //Query params - can be used for authentication
         query: {
           "token": prefs.get('token'),
@@ -52,8 +53,10 @@ class _MyAppState extends State<msgList> {
         },
         //Enable or disable platform channel logging
         enableLogging: false,
-        transports: [Transports.WEB_SOCKET/*, Transports.POLLING*/] //Enable required transport
-    ));
+        transports: [
+          Transports.WEB_SOCKET /*, Transports.POLLING*/
+        ] //Enable required transport
+        ));
     socket.onConnect((data) {
       pprint("connected..连接成功.");
       pprint(data);
@@ -73,8 +76,8 @@ class _MyAppState extends State<msgList> {
     sockets[identifier] = socket;
   }
 
-  bool isProbablyConnected(String identifier){
-    return _isProbablyConnected[identifier]??false;
+  bool isProbablyConnected(String identifier) {
+    return _isProbablyConnected[identifier] ?? false;
   }
 
   disconnect(String identifier) async {
@@ -85,22 +88,39 @@ class _MyAppState extends State<msgList> {
   sendMessage(identifier) {
     if (sockets[identifier] != null) {
       pprint("sending message from '$identifier'...");
-      sockets[identifier].emit("message", [
-
+      sockets[identifier].emit("chat", [
+//          {"target": "1"},
+//          {
+//            "payload": {
+//              "msg": "100000000000000000000000",
+//              "name": "kkkk",
+//              "uid": "5d903b209ab56f70dcd03ff9",
+//            }
+//          }
         {
-          "msg": "100000000000000000000000",
-          "name":"kkkk",
-          "uid":"5d903b209ab56f70dcd03ff9",
-        },
+          "target": "1",
+          "payload": {
+            "msg": "100000000000000000000000",
+            "name": "kkkk",
+            "uid": "5d903b209ab56f70dcd03ff9",
+          }
+        }
       ]);
-      pprint("Message emitted from '$identifier'...");
+      pprint("发言成功了?");
     }
   }
 
-  sendMessageWithACK(identifier){
+  //ack确认消息,用不到
+  sendMessageWithACK(identifier) {
     pprint("Sending ACK message from '$identifier'...");
-    List msg = ["Hello world!", 1, true, {"p":1}, [3,'r']];
-    sockets[identifier].emitWithAck("ack-message", msg).then( (data) {
+    List msg = [
+      "Hello world!",
+      1,
+      true,
+      {"p": 1},
+      [3, 'r']
+    ];
+    sockets[identifier].emitWithAck("ack-message", msg).then((data) {
       // this callback runs when this specific message is acknowledged by the server
       pprint("ACK recieved from '$identifier' for $msg: $data");
     });
@@ -117,7 +137,7 @@ class _MyAppState extends State<msgList> {
     });
   }
 
-  Container getButtonSet(String identifier){
+  Container getButtonSet(String identifier) {
     bool ipc = isProbablyConnected(identifier);
     return Container(
       height: 60.0,
@@ -128,7 +148,7 @@ class _MyAppState extends State<msgList> {
             margin: EdgeInsets.symmetric(horizontal: 8.0),
             child: RaisedButton(
               child: Text("Connect"),
-              onPressed: ipc?null:()=>initSocket(identifier),
+              onPressed: ipc ? null : () => initSocket(identifier),
               padding: EdgeInsets.symmetric(horizontal: 8.0),
             ),
           ),
@@ -136,26 +156,23 @@ class _MyAppState extends State<msgList> {
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: RaisedButton(
                 child: Text("Send Message"),
-                onPressed: ipc?()=>sendMessage(identifier):null,
+                onPressed: ipc ? () => sendMessage(identifier) : null,
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-              )
-          ),
+              )),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: RaisedButton(
                 child: Text("Send w/ ACK"), //Send message with ACK
-                onPressed: ipc?()=>sendMessageWithACK(identifier):null,
+                onPressed: ipc ? () => sendMessageWithACK(identifier) : null,
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-              )
-          ),
+              )),
           Container(
               margin: EdgeInsets.symmetric(horizontal: 8.0),
               child: RaisedButton(
                 child: Text("Disconnect"),
-                onPressed: ipc?()=>disconnect(identifier):null,
+                onPressed: ipc ? () => disconnect(identifier) : null,
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
-              )
-          ),
+              )),
         ],
       ),
     );
@@ -185,9 +202,7 @@ class _MyAppState extends State<msgList> {
               padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
               disabledColor: Colors.lightBlueAccent.withOpacity(0.5),
               buttonColor: Colors.lightBlue,
-              splashColor: Colors.cyan
-          )
-      ),
+              splashColor: Colors.cyan)),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Adhara Socket.IO example'),
@@ -202,27 +217,34 @@ class _MyAppState extends State<msgList> {
             children: <Widget>[
               Expanded(
                   child: Center(
-                    child: ListView(
-                      children: toPrint.map((String _) => Text(_ ?? "")).toList(),
-                    ),
-                  )
-              ),
+                child: ListView(
+                  children: toPrint.map((String _) => Text(_ ?? "")).toList(),
+                ),
+              )),
               Padding(
                 padding: EdgeInsets.only(left: 8.0, bottom: 8.0),
-                child: Text("Default Connection",),
+                child: Text(
+                  "Default Connection",
+                ),
               ),
               getButtonSet("default"),
               Padding(
                 padding: EdgeInsets.only(left: 8.0, bottom: 8.0, top: 8.0),
-                child: Text("Alternate Connection",),
+                child: Text(
+                  "Alternate Connection",
+                ),
               ),
               getButtonSet("alternate"),
               Padding(
                 padding: EdgeInsets.only(left: 8.0, bottom: 8.0, top: 8.0),
-                child: Text("Namespace Connection",),
+                child: Text(
+                  "Namespace Connection",
+                ),
               ),
               getButtonSet("namespaced"),
-              SizedBox(height: 12.0,)
+              SizedBox(
+                height: 12.0,
+              )
             ],
           ),
         ),
