@@ -47,7 +47,7 @@ class _MyAppState extends State<msgList> {
         //Query params - can be used for authentication
         query: {
           "token": prefs.get('token'),
-          "room": "2",
+          "room": "1",
           "userId": DateTime.now().toString()
         },
         //Enable or disable platform channel logging
@@ -55,7 +55,7 @@ class _MyAppState extends State<msgList> {
         transports: [Transports.WEB_SOCKET/*, Transports.POLLING*/] //Enable required transport
     ));
     socket.onConnect((data) {
-      pprint("connected...");
+      pprint("connected..连接成功.");
       pprint(data);
       sendMessage(identifier);
     });
@@ -86,26 +86,12 @@ class _MyAppState extends State<msgList> {
     if (sockets[identifier] != null) {
       pprint("sending message from '$identifier'...");
       sockets[identifier].emit("message", [
-        "Hello world!",
-        1908,
+
         {
-          "wonder": "Woman",
-          "comics": ["DC", "Marvel"]
+          "msg": "100000000000000000000000",
+          "name":"kkkk",
+          "uid":"5d903b209ab56f70dcd03ff9",
         },
-        {
-          "test": "=!./"
-        },
-        [
-          "I'm glad",
-          2019,
-          {
-            "come back": "Tony",
-            "adhara means": ["base", "foundation"]
-          },
-          {
-            "test": "=!./"
-          },
-        ]
       ]);
       pprint("Message emitted from '$identifier'...");
     }
