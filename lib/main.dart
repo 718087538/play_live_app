@@ -81,14 +81,15 @@ goPlay(context) async{
   SharedPreferences prefs = await SharedPreferences.getInstance();
 //  await print("查看token"+prefs.get('token'));
   //如果找不到token就代表没有登录,则跳到登录.
-//  if(prefs.get('ssss')== "" ||prefs.get('ssss')== null){
-//    print("没token,前往登录");
-//    Navigator.of(context).pushNamed("login_page");
-//  }else{
-//    print("已登录");
+  if(prefs.get('token')== "" ||prefs.get('token')== null){
+    print("没token,前往登录");
+    Navigator.of(context).pushNamed("login_page");
+
+  }else{
+    print("已登录");
 //    Navigator.of(context).pushNamed("play_room");
-//  }
-Navigator.of(context).pushNamed("chat");
+    Navigator.of(context).pushNamed("chat");
+  }
 }
 
 getList() async{

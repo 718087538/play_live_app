@@ -17,13 +17,11 @@ class Chat extends StatelessWidget {
   }
 }
 
-
-
 class msgList extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
-const String URI = "http://192.168.0.106:7000/";
+const String URI = "https://admin.congraedu.cn/api/chat";
 class _MyAppState extends State<msgList> {
   List<String> toPrint = ["trying to connect"];
   SocketIOManager manager;
@@ -37,7 +35,10 @@ class _MyAppState extends State<msgList> {
     initSocket("default");
   }
 
+//  socket建立连接
   initSocket(String identifier) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
     setState(() => _isProbablyConnected[identifier] = true);
     SocketIO socket = await manager.createInstance(SocketOptions(
       //Socket IO server URI
@@ -45,9 +46,9 @@ class _MyAppState extends State<msgList> {
         nameSpace: (identifier == "namespaced")?"/adhara":"/",
         //Query params - can be used for authentication
         query: {
-          "auth": "--SOME AUTH STRING---",
-          "info": "new connection from adhara-socketio",
-          "timestamp": DateTime.now().toString()
+          "token": prefs.get('token'),
+          "room": "2",
+          "userId": DateTime.now().toString()
         },
         //Enable or disable platform channel logging
         enableLogging: false,
@@ -119,6 +120,7 @@ class _MyAppState extends State<msgList> {
     });
   }
 
+  //打印出信息
   pprint(data) {
     setState(() {
       if (data is Map) {
