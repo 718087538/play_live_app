@@ -56,22 +56,18 @@ class RoomBox2 extends StatelessWidget {
   }
 }
 
-//class Test100 extends StatelessWidget {
-//  @override
-//  Widget build(BuildContext context) {
-//    return Container(
-//        child: Column(
-//      children: <Widget>[
-//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-//      ],
-//    ));
-//  }
-//}
+class Test100 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Column(
+      children: <Widget>[
+        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
+        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
+      ],
+    ));
+  }
+}
 
 //列表
 class LeftCategoryNav extends StatefulWidget {
@@ -96,16 +92,13 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   Widget build(BuildContext context) {
     _getCategory();
 
-    return Container(
-      child: Container(
-
-          constraints: BoxConstraints(minHeight: 800.0),
+    return Expanded(
           child: ListView.builder(
             itemCount: list.length,
             itemBuilder: (context, index) {
               return _leftInkWel(list, index, context);
             },
-          )),
+          ),
     );
   }
 }
