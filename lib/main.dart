@@ -1,3 +1,4 @@
+import 'package:congra_app/list.dart';
 import 'package:congra_app/playRoom.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -6,6 +7,7 @@ import 'dart:convert';
 import 'test.dart';
 import 'playRoom.dart';
 import 'test3.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() => runApp(new MyApp());
 
@@ -30,9 +32,46 @@ class MyApp extends StatelessWidget {
             appBar: AppBar(
               title: Text('空格教育'),
             ),
-            body: new LeftCategoryNav()));
+            body: RoomBox2()));
+//            body: LeftCategoryNav()));
   }
 }
+
+//顶部登录状态
+class RoomBox2 extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        color: Colors.grey[700],
+        width: 500.0,
+        child: Column(
+          children: <Widget>[
+            Text("登录了没??????"),
+            Text("登录了没??????"),
+            Text("登录了没??????"),
+//            Test100(),
+            LeftCategoryNav(),
+          ],
+        ));
+  }
+}
+
+//class Test100 extends StatelessWidget {
+//  @override
+//  Widget build(BuildContext context) {
+//    return Container(
+//        child: Column(
+//      children: <Widget>[
+//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
+//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
+//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
+//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
+//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
+//        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
+//      ],
+//    ));
+//  }
+//}
 
 //列表
 class LeftCategoryNav extends StatefulWidget {
@@ -41,9 +80,6 @@ class LeftCategoryNav extends StatefulWidget {
 
 class _LeftCategoryNavState extends State<LeftCategoryNav> {
   List list = [
-    {'title': "123456"},
-    {'title': "123456"},
-    {'title': "123456"},
     {'title': "123456"},
   ];
 
@@ -61,12 +97,15 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     _getCategory();
 
     return Container(
-      child: ListView.builder(
-        itemCount: list.length,
-        itemBuilder: (context, index) {
-          return _leftInkWel(list, index, context);
-        },
-      ),
+      child: Container(
+
+          constraints: BoxConstraints(minHeight: 800.0),
+          child: ListView.builder(
+            itemCount: list.length,
+            itemBuilder: (context, index) {
+              return _leftInkWel(list, index, context);
+            },
+          )),
     );
   }
 }
@@ -115,7 +154,6 @@ Widget _leftInkWel(list, int index, context) {
         Container(
           width: 650.0,
           padding: EdgeInsets.only(left: 10.0),
-
           child: Text("描述: " + list[index]["description"],
               style: TextStyle(
                 fontSize: 20.0,
