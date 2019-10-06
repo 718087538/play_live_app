@@ -62,13 +62,16 @@ class _RoomBox2 extends State<RoomBox2>{
     checkLogin();
     return Container(
         width: 500.0,
+        padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
             Row(
               children: <Widget>[
                 Expanded(
 //                  child: Text('${_loginStatus}'),
-                  child: Text(_isLogin ? '已登录' : '未登录'),
+                  child: Text(_isLogin ? '已登录' : '未登录',style: TextStyle(
+                    fontSize:26.0, // 文字大小
+                  ),),
                 ),
 
                 RaisedButton(
