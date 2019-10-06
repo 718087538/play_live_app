@@ -111,6 +111,8 @@ fetchData() async {
   print('Response body: ${_data["data"]["svgCode"]}'); //可以获得svg图片
 }
 
+
+//用于登录的方法.用到了
 Login2(context , _mobile ,_password) async {
   var url = 'http://192.168.0.200:7001/api/student/login';
   var response = await http

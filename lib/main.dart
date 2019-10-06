@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'test.dart';
+//import 'test.dart';
+import 'login.dart';
 import 'playRoom.dart';
 import 'test3.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -43,8 +44,22 @@ class RoomBox2 extends StatefulWidget {
 }
 
 class _RoomBox2 extends State<RoomBox2>{
+  String _loginStatus = "未登录";
+  String _btnName = "去登陆";
+  bool _isLogin = true;
+  checkLogin() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await print(prefs.get('token') + "读取的token");
+    if(prefs.get('token') == "" || prefs.get('token') == null){
+      _isLogin = false;
+    }else{
+      _isLogin = true;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    checkLogin();
     return Container(
         width: 500.0,
         child: Column(
@@ -52,13 +67,14 @@ class _RoomBox2 extends State<RoomBox2>{
             Row(
               children: <Widget>[
                 Expanded(
-                  child: Text("已登录:某某用户"),
+//                  child: Text('${_loginStatus}'),
+                  child: Text(_isLogin ? '已登录' : '未登录'),
                 ),
 
                 RaisedButton(
-                  child: Text("去登陆"),
+                  child: Text(_isLogin ? '重新登录' : '去登录'),
                   onPressed: (){
-
+                    Navigator.pushNamed(context, "login_page");
                   },
                 )
               ],
