@@ -38,7 +38,11 @@ class MyApp extends StatelessWidget {
 }
 
 //顶部登录状态
-class RoomBox2 extends StatelessWidget {
+class RoomBox2 extends StatefulWidget {
+  _RoomBox2 createState() => _RoomBox2();
+}
+
+class _RoomBox2 extends State<RoomBox2>{
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -65,6 +69,8 @@ class RoomBox2 extends StatelessWidget {
         ));
   }
 }
+
+
 
 class Test100 extends StatelessWidget {
   @override
