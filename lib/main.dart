@@ -42,13 +42,23 @@ class RoomBox2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.grey[700],
         width: 500.0,
         child: Column(
           children: <Widget>[
-            Text("登录了没??????"),
-            Text("登录了没??????"),
-            Text("登录了没??????"),
+            Row(
+              children: <Widget>[
+                Expanded(
+                  child: Text("已登录:某某用户"),
+                ),
+
+                RaisedButton(
+                  child: Text("去登陆"),
+                  onPressed: (){
+
+                  },
+                )
+              ],
+            ),
 //            Test100(),
             LeftCategoryNav(),
           ],
@@ -93,12 +103,12 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     _getCategory();
 
     return Expanded(
-          child: ListView.builder(
-            itemCount: list.length,
-            itemBuilder: (context, index) {
-              return _leftInkWel(list, index, context);
-            },
-          ),
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return _leftInkWel(list, index, context);
+        },
+      ),
     );
   }
 }
