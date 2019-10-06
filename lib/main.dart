@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
 //import 'test.dart';
 import 'login.dart';
 import 'playRoom.dart';
@@ -43,16 +44,17 @@ class RoomBox2 extends StatefulWidget {
   _RoomBox2 createState() => _RoomBox2();
 }
 
-class _RoomBox2 extends State<RoomBox2>{
+class _RoomBox2 extends State<RoomBox2> {
   String _loginStatus = "未登录";
   String _btnName = "去登陆";
   bool _isLogin = true;
-  checkLogin() async{
+
+  checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await print(prefs.get('token') + "读取的token");
-    if(prefs.get('token') == "" || prefs.get('token') == null){
+    if (prefs.get('token') == "" || prefs.get('token') == null) {
       _isLogin = false;
-    }else{
+    } else {
       _isLogin = true;
     }
   }
@@ -69,14 +71,16 @@ class _RoomBox2 extends State<RoomBox2>{
               children: <Widget>[
                 Expanded(
 //                  child: Text('${_loginStatus}'),
-                  child: Text(_isLogin ? '已登录' : '未登录',style: TextStyle(
-                    fontSize:26.0, // 文字大小
-                  ),),
+                  child: Text(
+                    _isLogin ? '已登录' : '未登录',
+                    style: TextStyle(
+                      fontSize: 26.0, // 文字大小
+                    ),
+                  ),
                 ),
-
                 RaisedButton(
                   child: Text(_isLogin ? '重新登录' : '去登录'),
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.pushNamed(context, "login_page");
                   },
                 )
@@ -88,8 +92,6 @@ class _RoomBox2 extends State<RoomBox2>{
         ));
   }
 }
-
-
 
 class Test100 extends StatelessWidget {
   @override
@@ -149,11 +151,23 @@ Widget _leftInkWel(list, int index, context) {
       await prefs.setString('counter', counter);
 //      await print(prefs.get('counter') + "读取+替代路由传参");
 
-      //设置完缓存就可以去另外的页面读取缓存了
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (BuildContext context) {
-        return PlayRoom();
-      }));
+//      根据是否有缓存判断是否登录
+//  await print("查看token"+prefs.get('token'));
+      //如果找不到token就代表没有登录,则跳到登录.
+      if (prefs.get('token') == "" || prefs.get('token') == null) {
+        print("没token,前往登录");
+        Navigator.of(context).pushNamed("login_page");
+      } else {
+        print("已登录");
+        //设置完缓存就可以去另外的页面读取缓存了
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) {
+          return PlayRoom();
+        }));
+
+//    Navigator.of(context).pushNamed("play_room");
+//        Navigator.of(context).pushNamed("chat");//聊天的页面
+      }
     },
     child: Container(
       color: Colors.grey[400],
