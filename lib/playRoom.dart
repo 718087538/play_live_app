@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fijkplayer/fijkplayer.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayRoom extends StatelessWidget {
   @override
@@ -8,7 +9,27 @@ class PlayRoom extends StatelessWidget {
         appBar: AppBar(
           title: Text('直播间'),
         ),
-        body: new VideoScreen());
+        body: new PlayPage());
+  }
+}
+
+class PlayPage extends StatefulWidget {
+  _PlayPage createState() => _PlayPage();
+}
+
+class _PlayPage extends State<PlayPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        width: 500.0,
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          children: <Widget>[
+           VideoScreen(),
+            Text("假如我是留言内容"),
+
+          ],
+        ));
   }
 }
 
@@ -31,6 +52,8 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 500.0,
+      height: 240.0,
       child: FijkVolumeWatcher(
           watcher: null,
           showToast: true,
