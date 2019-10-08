@@ -235,15 +235,22 @@ class _MyAppState extends State<msgList2> {
     setState(() => _isProbablyConnected[identifier] = false);
   }
 
-  sendMessage(identifier) {
+  sendMessage(identifier) async{
+     SharedPreferences prefs = await  SharedPreferences.getInstance();
+    String name = prefs.get('name');
+     String uid = prefs.get('uid');
+     //房间号
+//     String target = prefs.get('name');
     if (sockets[identifier] != null) {
+
+
       sockets[identifier].emit("chat", [
         {
           "target": "1",
           "payload": {
             "msg": sendContentValue222,
-            "name": "kkkk",
-            "uid": "5d903b209ab56f70dcd03ff9",
+            "name": name,
+            "uid": uid,
           }
         }
       ]);

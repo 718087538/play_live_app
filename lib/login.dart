@@ -127,9 +127,14 @@ Login2(context , _mobile ,_password) async {
   var _code = data["code"];
   if(_code == 200){
     String token = data["data"]["token"];
+    String name = data["data"]["name"];
+    String uid = data["data"]["uid"];
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     //把token缓存起来.
     await prefs.setString('token', token);
+    await prefs.setString('name', name);
+    await prefs.setString('uid', uid);
 //  await print("查看token"+prefs.get('token'));
 
     //登录成功跳转到首页
