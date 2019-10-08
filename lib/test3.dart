@@ -152,20 +152,6 @@ class _MyAppState extends State<msgList> {
                 onPressed: ipc ? () => sendMessage(identifier) : null,
                 padding: EdgeInsets.symmetric(horizontal: 8.0),
               )),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 8.0),
-              child: RaisedButton(
-                child: Text("Send w/ ACK"), //Send message with ACK
-                onPressed: ipc ? () => sendMessageWithACK(identifier) : null,
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-              )),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 8.0),
-              child: RaisedButton(
-                child: Text("Disconnect"),
-                onPressed: ipc ? () => disconnect(identifier) : null,
-                padding: EdgeInsets.symmetric(horizontal: 8.0),
-              )),
         ],
       ),
     );
