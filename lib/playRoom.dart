@@ -22,7 +22,7 @@ class _PlayPage extends State<PlayPage> {
   Widget build(BuildContext context) {
     return Container(
         width: 500.0,
-        height: 550.0,
+        height: 650.0,
         padding: EdgeInsets.all(10.0),
         child: Column(
           children: <Widget>[
@@ -40,24 +40,31 @@ class sendMsg extends StatefulWidget {
 }
 
 class _sendMsg extends State<sendMsg> {
+  String msgContent;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-          width: 750.0,
-          margin: EdgeInsets.all(10.0),
-          child: Row(
-            children: <Widget>[
-              Text("请输入您的留言内容"
-              ),
-              Expanded(
-                child: Text("发送"),
-              ),
-            ],
+    return Padding(
+      padding: EdgeInsets.all(20.0),
+      child: Column(
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "请输入密码",
+                labelText: "密码"),
           ),
+          RaisedButton(
+            child: Text( '发送'),
+            onPressed: () {
+
+            },
+          )
+        ],
+      ),
     );
   }
 }
-
 
 //消息列表类
 class msgList extends StatefulWidget {
@@ -68,24 +75,11 @@ class _msgList extends State<msgList> {
   List list = [
     {'name': "kkk", 'msg': "我是留言内容呢", 'uid': "125535352"},
     {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "33333名", 'msg': "333333", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
-    {'name': "44444名", 'msg': "4444444", 'uid': "125535352"},
   ];
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-
       child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
@@ -103,7 +97,8 @@ Widget _list(list, int index, context) {
         margin: EdgeInsets.all(10.0),
         child: Row(
           children: <Widget>[
-            Text(list[index]["name"],
+            Text(
+              list[index]["name"],
               style: TextStyle(
                 color: Colors.redAccent,
               ),
