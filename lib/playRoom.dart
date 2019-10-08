@@ -271,7 +271,6 @@ class _MyAppState extends State<msgList2> {
   pprint(data) {
 //    print(data);
   //打印留言的信息
-      print(data["data"]["payload"]);
       list.add(data["data"]["payload"]);//添加进数组
 //    setState(() {
 //      if (data is Map) {
@@ -318,23 +317,9 @@ class _MyAppState extends State<msgList2> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          textTheme: TextTheme(
-          ),
-          buttonTheme: ButtonThemeData(
-              padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
-              disabledColor: Colors.lightBlueAccent.withOpacity(0.5),
-              buttonColor: Colors.lightBlue,
-              splashColor: Colors.cyan)),
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Adhara Socket.IO example'),
-          backgroundColor: Colors.black,
-          elevation: 0.0,
-        ),
-        body: Container(
+    return
+
+        Container(
 //          color: Colors.black,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -346,8 +331,7 @@ class _MyAppState extends State<msgList2> {
 
             ],
           ),
-        ),
-      ),
-    );
+        );
+
   }
 }
