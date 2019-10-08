@@ -62,15 +62,15 @@ class _MyAppState extends State<msgList> {
       pprint(data);
       sendMessage(identifier);
     });
-    socket.onConnectError(pprint);
-    socket.onConnectTimeout(pprint);
-    socket.onError(pprint);
-    socket.onDisconnect(pprint);
-    socket.on("type:string", (data) => pprint("type:string | $data"));
-    socket.on("type:bool", (data) => pprint("type:bool | $data"));
-    socket.on("type:number", (data) => pprint("type:number | $data"));
-    socket.on("type:object", (data) => pprint("type:object | $data"));
-    socket.on("type:list", (data) => pprint("type:list | $data"));
+//    socket.onConnectError(pprint);
+//    socket.onConnectTimeout(pprint);
+//    socket.onError(pprint);
+//    socket.onDisconnect(pprint);
+//    socket.on("type:string", (data) => pprint("type:string | $data"));
+//    socket.on("type:bool", (data) => pprint("type:bool | $data"));
+//    socket.on("type:number", (data) => pprint("type:number | $data"));
+//    socket.on("type:object", (data) => pprint("type:object | $data"));
+//    socket.on("type:list", (data) => pprint("type:list | $data"));
     socket.on("chat", (data) => pprint(data));
     socket.connect();
     sockets[identifier] = socket;
@@ -87,7 +87,7 @@ class _MyAppState extends State<msgList> {
 
   sendMessage(identifier) {
     if (sockets[identifier] != null) {
-      pprint("sending message from '$identifier'...");
+      print("sending message from '$identifier'...");
       sockets[identifier].emit("chat", [
 
         {
@@ -99,13 +99,13 @@ class _MyAppState extends State<msgList> {
           }
         }
       ]);
-      pprint("发言成功了?");
+      print("已发出留言");
     }
   }
 
   //ack确认消息,用不到
   sendMessageWithACK(identifier) {
-    pprint("Sending ACK message from '$identifier'...");
+//    pprint("Sending ACK message from '$identifier'...");
     List msg = [
       "Hello world!",
       1,
@@ -115,7 +115,7 @@ class _MyAppState extends State<msgList> {
     ];
     sockets[identifier].emitWithAck("ack-message", msg).then((data) {
       // this callback runs when this specific message is acknowledged by the server
-      pprint("ACK recieved from '$identifier' for $msg: $data");
+//      pprint("ACK recieved from '$identifier' for $msg: $data");
     });
   }
 
@@ -125,8 +125,8 @@ class _MyAppState extends State<msgList> {
       if (data is Map) {
         data = json.encode(data);
       }
-      print(data);
-      toPrint.add(data);
+//      print(data);
+//      toPrint.add(data);
     });
   }
 
@@ -197,7 +197,7 @@ class _MyAppState extends State<msgList> {
               Expanded(
                   child: Center(
                     child: ListView(
-                      children: toPrint.map((String _) => Text(_ ?? "")).toList(),
+//                      children: toPrint.map((String _) => Text(_ ?? "")).toList(),
                     ),
                   )),
               Padding(
