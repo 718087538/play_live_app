@@ -56,6 +56,7 @@ class _sendMsg extends State<sendMsg> {
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
                   hintText: "发言"),
+
             ),
           ),
           RaisedButton(
@@ -193,7 +194,7 @@ class _MyAppState extends State<msgList2> {
   SocketIOManager manager;
   Map<String, SocketIO> sockets = {};
   Map<String, bool> _isProbablyConnected = {};
-
+  String sendContentValue = "";
   @override
   void initState() {
     super.initState();
@@ -249,7 +250,7 @@ class _MyAppState extends State<msgList2> {
         {
           "target": "1",
           "payload": {
-            "msg": "100000000000000000000000",
+            "msg": sendContentValue,
             "name": "kkkk",
             "uid": "5d903b209ab56f70dcd03ff9",
           }
@@ -288,17 +289,33 @@ class _MyAppState extends State<msgList2> {
     bool ipc = isProbablyConnected(identifier);
     return Container(
       height: 60.0,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
+      child:
+      Row(
         children: <Widget>[
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 8.0),
-              child: RaisedButton(
-                child: Text("Send Message"),
-                onPressed: ipc ? () => sendMessage(identifier) : null,
-              )),
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "发言"),
+                onChanged: (value) {
+                  setState(() {
+                    //把文本框的值实时赋给一个变量
+                    sendContentValue = value;
+                  });
+                }
+            ),
+          ),
+          RaisedButton(
+            padding: EdgeInsets.all(20),
+            color: Colors.red,
+            textColor: Colors.white,
+            child: Text('发送'),
+            onPressed: ipc ? () => sendMessage(identifier) : null,
+          )
         ],
       ),
+
+
     );
   }
 
@@ -340,13 +357,7 @@ class _MyAppState extends State<msgList2> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               VideoScreen(),
-              Padding(
-                padding: EdgeInsets.only(left: 8.0, bottom: 8.0),
-                child: Text(
-                  "Default Connection",
-                ),
-              ),
-              
+
               getButtonSet("default"),
 
             ],
