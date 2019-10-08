@@ -221,20 +221,6 @@ class _MyAppState extends State<msgList> {
                 ),
               ),
               getButtonSet("default"),
-              Padding(
-                padding: EdgeInsets.only(left: 8.0, bottom: 8.0, top: 8.0),
-                child: Text(
-                  "Alternate Connection",
-                ),
-              ),
-              getButtonSet("alternate"),
-              Padding(
-                padding: EdgeInsets.only(left: 8.0, bottom: 8.0, top: 8.0),
-                child: Text(
-                  "Namespace Connection",
-                ),
-              ),
-              getButtonSet("namespaced"),
               SizedBox(
                 height: 12.0,
               )
