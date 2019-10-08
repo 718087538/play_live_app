@@ -4,10 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 
 class Chat extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-
     return new MaterialApp(
         title: "dsda",
         home: Scaffold(
@@ -19,7 +17,6 @@ class Chat extends StatelessWidget {
 }
 
 class msgList extends StatefulWidget {
-
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -45,7 +42,7 @@ class _MyAppState extends State<msgList> {
 
     setState(() => _isProbablyConnected[identifier] = true);
     SocketIO socket = await manager.createInstance(SocketOptions(
-        //Socket IO server URI
+      //Socket IO server URI
         URI,
         nameSpace: (identifier == "namespaced") ? "/adhara" : "/",
         //Query params - can be used for authentication
@@ -59,7 +56,7 @@ class _MyAppState extends State<msgList> {
         transports: [
           Transports.WEB_SOCKET /*, Transports.POLLING*/
         ] //Enable required transport
-        ));
+    ));
     socket.onConnect((data) {
       pprint("connected..连接成功.");
       pprint(data);
@@ -84,7 +81,6 @@ class _MyAppState extends State<msgList> {
   }
 
   disconnect(String identifier) async {
-    print("断开聊天");
     await manager.clearInstance(sockets[identifier]);
     setState(() => _isProbablyConnected[identifier] = false);
   }
@@ -214,10 +210,10 @@ class _MyAppState extends State<msgList> {
             children: <Widget>[
               Expanded(
                   child: Center(
-                child: ListView(
-                  children: toPrint.map((String _) => Text(_ ?? "")).toList(),
-                ),
-              )),
+                    child: ListView(
+                      children: toPrint.map((String _) => Text(_ ?? "")).toList(),
+                    ),
+                  )),
               Padding(
                 padding: EdgeInsets.only(left: 8.0, bottom: 8.0),
                 child: Text(
