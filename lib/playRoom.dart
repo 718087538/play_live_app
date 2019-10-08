@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:fijkplayer/fijkplayer.dart';
 import 'dart:convert';
@@ -82,10 +84,12 @@ List list = [
 ];
 
 class _msgList extends State<msgList> {
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: ListView.builder(
+
         itemCount: list.length,
         itemBuilder: (context, index) {
           return _list(list, index, context);
@@ -165,19 +169,12 @@ class _VideoScreenState extends State<VideoScreen> {
     test(url);
   }
 }
-
 //从这里开始上面不动
-
-
-
-
 class msgList2 extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
-
 const String URI = "https://admin.congraedu.cn/api/chat";
-
 
 //暂存发言的内容
 String sendContentValue222 = "";
@@ -237,9 +234,7 @@ class _MyAppState extends State<msgList2> {
 
   sendMessage(identifier) {
     if (sockets[identifier] != null) {
-      print("sending message from '$identifier'...");
       sockets[identifier].emit("chat", [
-
         {
           "target": "1",
           "payload": {
@@ -258,10 +253,6 @@ class _MyAppState extends State<msgList2> {
 //    pprint("Sending ACK message from '$identifier'...");
     List msg = [
       "Hello world!",
-      1,
-      true,
-      {"p": 1},
-      [3, 'r']
     ];
     sockets[identifier].emitWithAck("ack-message", msg).then((data) {
     });
@@ -271,14 +262,15 @@ class _MyAppState extends State<msgList2> {
   pprint(data) {
 //    print(data);
   //打印留言的信息
+
+    setState(() {
       list.add(data["data"]["payload"]);//添加进数组
-//    setState(() {
 //      if (data is Map) {
 //        data = json.encode(data);
 //      }
 //      print(data);
 //      toPrint.add(data);
-//    });
+    });
   }
 
   Container getButtonSet(String identifier) {
