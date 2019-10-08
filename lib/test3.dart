@@ -6,15 +6,15 @@ import 'package:adhara_socket_io/adhara_socket_io.dart';
 class Chat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
-        title: "dsda",
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text('聊天室'),
-            ),
-            body: new msgList()));
+    return Scaffold(
+        appBar: AppBar(
+          title: Text('直播间'),
+        ),
+        body: new msgList());
   }
 }
+
+
 
 class msgList extends StatefulWidget {
   @override
@@ -62,15 +62,6 @@ class _MyAppState extends State<msgList> {
       pprint(data);
       sendMessage(identifier);
     });
-//    socket.onConnectError(pprint);
-//    socket.onConnectTimeout(pprint);
-//    socket.onError(pprint);
-//    socket.onDisconnect(pprint);
-//    socket.on("type:string", (data) => pprint("type:string | $data"));
-//    socket.on("type:bool", (data) => pprint("type:bool | $data"));
-//    socket.on("type:number", (data) => pprint("type:number | $data"));
-//    socket.on("type:object", (data) => pprint("type:object | $data"));
-//    socket.on("type:list", (data) => pprint("type:list | $data"));
     socket.on("chat", (data) => pprint(data));
     socket.connect();
     sockets[identifier] = socket;
@@ -103,21 +94,6 @@ class _MyAppState extends State<msgList> {
     }
   }
 
-  //ack确认消息,用不到
-  sendMessageWithACK(identifier) {
-//    pprint("Sending ACK message from '$identifier'...");
-    List msg = [
-      "Hello world!",
-      1,
-      true,
-      {"p": 1},
-      [3, 'r']
-    ];
-    sockets[identifier].emitWithAck("ack-message", msg).then((data) {
-      // this callback runs when this specific message is acknowledged by the server
-//      pprint("ACK recieved from '$identifier' for $msg: $data");
-    });
-  }
 
   //打印出信息
   pprint(data) {
@@ -207,9 +183,7 @@ class _MyAppState extends State<msgList> {
                 ),
               ),
               getButtonSet("default"),
-              SizedBox(
-                height: 12.0,
-              )
+
             ],
           ),
         ),

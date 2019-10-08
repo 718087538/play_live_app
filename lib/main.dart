@@ -160,13 +160,13 @@ Widget _leftInkWel(list, int index, context) {
       } else {
         print("已登录");
         //设置完缓存就可以去另外的页面读取缓存了
-//        Navigator.of(context)
-//            .push(MaterialPageRoute(builder: (BuildContext context) {
-//          return PlayRoom();
-//        }));
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (BuildContext context) {
+          return PlayRoom();
+        }));
 
-    Navigator.of(context).pushNamed("play_room");
-        Navigator.of(context).pushNamed("chat");//聊天的页面
+//    Navigator.of(context).pushNamed("play_room");
+//        Navigator.of(context).pushNamed("chat");//聊天的页面
       }
     },
     child: Container(
@@ -256,8 +256,8 @@ goPlay(context) async {
     Navigator.of(context).pushNamed("login_page");
   } else {
     print("已登录");
-//    Navigator.of(context).pushNamed("play_room");
-    Navigator.of(context).pushNamed("chat");
+    Navigator.of(context).pushNamed("play_room");
+//    Navigator.of(context).pushNamed("chat");
   }
 }
 
