@@ -84,10 +84,13 @@ List list = [
 ];
 
 class _msgList extends State<msgList> {
+  ScrollController _scrollController = new ScrollController();
 
   @override
   Widget build(BuildContext context) {
+
     return Expanded(
+
       child: ListView.builder(
 
         itemCount: list.length,
@@ -264,13 +267,21 @@ class _MyAppState extends State<msgList2> {
   //打印留言的信息
 
     setState(() {
-      list.add(data["data"]["payload"]);//添加进数组
+      print(list.length);
+      //模仿上下滚动的效果
+      if(list.length >6){
+        print("删除1个");
+        list.removeAt(1);
+        print(list);
+      }
+       list.add(data["data"]["payload"]);//添加进数组
 //      if (data is Map) {
 //        data = json.encode(data);
 //      }
 //      print(data);
 //      toPrint.add(data);
     });
+
   }
 
   Container getButtonSet(String identifier) {
