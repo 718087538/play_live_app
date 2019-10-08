@@ -276,13 +276,17 @@ class _MyAppState extends State<msgList2> {
 
   //打印出信息
   pprint(data) {
-    setState(() {
-      if (data is Map) {
-        data = json.encode(data);
-      }
+//    print(data);
+  //打印留言的信息
+      print(data["data"]["payload"]["msg"]);
+
+//    setState(() {
+//      if (data is Map) {
+//        data = json.encode(data);
+//      }
 //      print(data);
 //      toPrint.add(data);
-    });
+//    });
   }
 
   Container getButtonSet(String identifier) {
@@ -325,19 +329,6 @@ class _MyAppState extends State<msgList2> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
           textTheme: TextTheme(
-            title: TextStyle(color: Colors.white),
-            headline: TextStyle(color: Colors.white),
-            subtitle: TextStyle(color: Colors.white),
-            subhead: TextStyle(color: Colors.white),
-            body1: TextStyle(color: Colors.white),
-            body2: TextStyle(color: Colors.white),
-            button: TextStyle(color: Colors.white),
-            caption: TextStyle(color: Colors.white),
-            overline: TextStyle(color: Colors.white),
-            display1: TextStyle(color: Colors.white),
-            display2: TextStyle(color: Colors.white),
-            display3: TextStyle(color: Colors.white),
-            display4: TextStyle(color: Colors.white),
           ),
           buttonTheme: ButtonThemeData(
               padding: EdgeInsets.symmetric(vertical: 24.0, horizontal: 12.0),
@@ -357,7 +348,7 @@ class _MyAppState extends State<msgList2> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               VideoScreen(),
-
+              msgList(),
               getButtonSet("default"),
 
             ],
