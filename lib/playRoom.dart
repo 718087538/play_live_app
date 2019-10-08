@@ -52,11 +52,13 @@ class _sendMsg extends State<sendMsg> {
             child: TextField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: "请输入密码",
-                  labelText: "密码"),
+                  hintText: "发言"),
             ),
           ),
           RaisedButton(
+            padding: EdgeInsets.all(20),
+            color: Colors.red,
+            textColor: Colors.white,
             child: Text('发送'),
             onPressed: () {},
           )
@@ -74,6 +76,16 @@ class msgList extends StatefulWidget {
 class _msgList extends State<msgList> {
   List list = [
     {'name': "kkk", 'msg': "我是留言内容呢", 'uid': "125535352"},
+    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
+    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
+    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
+    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
+    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
+    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
+    {'name': "222名", 'msg': "213123", 'uid': "125535352"},
+    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
+    {'name': "222名", 'msg': "3246565", 'uid': "125535352"},
+    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
     {'name': "222名", 'msg': "2222", 'uid': "125535352"},
   ];
 
