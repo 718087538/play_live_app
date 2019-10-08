@@ -46,19 +46,19 @@ class _sendMsg extends State<sendMsg> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(20.0),
-      child: Column(
+      child: Row(
         children: <Widget>[
-          TextField(
-            decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "请输入密码",
-                labelText: "密码"),
+          Expanded(
+            child: TextField(
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "请输入密码",
+                  labelText: "密码"),
+            ),
           ),
           RaisedButton(
-            child: Text( '发送'),
-            onPressed: () {
-
-            },
+            child: Text('发送'),
+            onPressed: () {},
           )
         ],
       ),
