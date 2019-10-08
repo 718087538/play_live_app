@@ -27,6 +27,11 @@ class _PlayPage extends State<PlayPage> {
           children: <Widget>[
            VideoScreen(),
             Text("假如我是留言内容"),
+            Text("假如我是留言内容"),
+            Text("假如我是留言内容"),
+            Text("假如我是留言内容"),
+            Text("假如我是留言内容"),
+
 
           ],
         ));
