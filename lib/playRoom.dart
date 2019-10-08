@@ -77,22 +77,11 @@ class msgList extends StatefulWidget {
   _msgList createState() => _msgList();
 }
 
-class _msgList extends State<msgList> {
-  List list = [
-    {'name': "kkk", 'msg': "我是留言内容呢", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "222名", 'msg': "213123", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "222名", 'msg': "3246565", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-    {'name': "222名", 'msg': "2222", 'uid': "125535352"},
-  ];
+List list = [
+  {'name': "kkk", 'msg': "我是留言内容呢", 'uid': "125535352"},
+];
 
+class _msgList extends State<msgList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -189,12 +178,16 @@ class msgList2 extends StatefulWidget {
 
 const String URI = "https://admin.congraedu.cn/api/chat";
 
+
+//暂存发言的内容
+String sendContentValue222 = "";
+
 class _MyAppState extends State<msgList2> {
   List<String> toPrint = ["trying to connect"];
   SocketIOManager manager;
   Map<String, SocketIO> sockets = {};
   Map<String, bool> _isProbablyConnected = {};
-  String sendContentValue = "";
+//  String sendContentValue = "";
   @override
   void initState() {
     super.initState();
@@ -250,7 +243,7 @@ class _MyAppState extends State<msgList2> {
         {
           "target": "1",
           "payload": {
-            "msg": sendContentValue,
+            "msg": sendContentValue222,
             "name": "kkkk",
             "uid": "5d903b209ab56f70dcd03ff9",
           }
@@ -278,8 +271,8 @@ class _MyAppState extends State<msgList2> {
   pprint(data) {
 //    print(data);
   //打印留言的信息
-      print(data["data"]["payload"]["msg"]);
-
+      print(data["data"]["payload"]);
+      list.add(data["data"]["payload"]);//添加进数组
 //    setState(() {
 //      if (data is Map) {
 //        data = json.encode(data);
@@ -304,7 +297,7 @@ class _MyAppState extends State<msgList2> {
                 onChanged: (value) {
                   setState(() {
                     //把文本框的值实时赋给一个变量
-                    sendContentValue = value;
+                    sendContentValue222 = value;
                   });
                 }
             ),
