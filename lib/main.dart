@@ -117,7 +117,8 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   ];
 
   void _getCategory() async {
-    var url = 'http://192.168.0.200:7001/api/live/room';
+//    var url = 'http://192.168.0.200:7001/api/live/room';//本地
+    var url = 'https://admin.congraedu.cn/api/live/room';//服务器
     var response = await http.get(url);
     var data = await jsonDecode(response.body);
     setState(() {
@@ -159,6 +160,8 @@ Widget _leftInkWel(list, int index, context) {
         Navigator.of(context).pushNamed("login_page");
       } else {
         print("已登录");
+        print(list);
+        await prefs.setString('roomID', list[index]["roomID"]);
         //设置完缓存就可以去另外的页面读取缓存了
         Navigator.of(context)
             .push(MaterialPageRoute(builder: (BuildContext context) {

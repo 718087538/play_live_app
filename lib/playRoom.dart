@@ -79,16 +79,18 @@ class msgList extends StatefulWidget {
   _msgList createState() => _msgList();
 }
 
-List list = [
-  {'name': "kkk", 'msg': "我是留言内容呢", 'uid': "125535352"},
-];
+List list = [];
 
 class _msgList extends State<msgList> {
   ScrollController _scrollController = new ScrollController();
 
+  //重置数组列表
+  clearList(){
+//    list = [];
+  }
   @override
   Widget build(BuildContext context) {
-
+    clearList();
     return Expanded(
 
       child: ListView.builder(
@@ -198,7 +200,8 @@ class _MyAppState extends State<msgList2> {
 //  socket建立连接
   initSocket(String identifier) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
+    String roomID =await prefs.get('roomID');
+//    print('打印出的roomID'+roomID);
     setState(() => _isProbablyConnected[identifier] = true);
     SocketIO socket = await manager.createInstance(SocketOptions(
       //Socket IO server URI
@@ -207,7 +210,7 @@ class _MyAppState extends State<msgList2> {
         //Query params - can be used for authentication
         query: {
           "token": prefs.get('token'),
-          "room": "1",
+          "room": roomID,
           "userId": DateTime.now().toString()
         },
         //Enable or disable platform channel logging
