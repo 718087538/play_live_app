@@ -172,7 +172,7 @@ Widget _leftInkWel(list, int index, context) {
       }
     },
     child: Container(
-      color: Colors.grey[400],
+      color: Colors.grey[350],
       height: 230.0,
       width: 750.0,
       margin: EdgeInsets.all(10.0),

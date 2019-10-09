@@ -314,6 +314,10 @@ class _MyAppState extends State<msgList2> {
     });
   }
 
+  final TextEditingController _controller = new TextEditingController();
+
+
+
   Container getButtonSet(String identifier) {
     bool ipc = isProbablyConnected(identifier);
     return Container(
@@ -326,6 +330,7 @@ class _MyAppState extends State<msgList2> {
           Expanded(
 
             child: TextField(
+              controller: _controller,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     hintText: "发言"),
@@ -344,7 +349,12 @@ class _MyAppState extends State<msgList2> {
               color: Colors.red,
               textColor: Colors.white,
               child: Text('发送'),
-              onPressed: ipc ? () => sendMessage(identifier) : null,
+//              onPressed: ipc ? () => sendMessage(identifier) : null,
+              onPressed: (){
+                sendMessage(identifier);
+              _controller.clear();
+              }
+
             ),
           )
         ],
