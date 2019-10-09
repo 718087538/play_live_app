@@ -7,10 +7,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:http/http.dart' as http;
 
+String pppUrl ;
 
 class PlayRoom extends StatelessWidget {
+
+
   @override
   Widget build(BuildContext context) {
+//获取路由参数
+    var args=ModalRoute.of(context).settings.arguments;
+    pppUrl = args;
+    print("传参++++++++++++++++++++++"+args);
     return Scaffold(
         appBar: AppBar(
           title: Text('直播间'),
@@ -148,7 +155,7 @@ class VideoScreen extends StatefulWidget {
 
 class _VideoScreenState extends State<VideoScreen> {
   final FijkPlayer player = FijkPlayer();
-  String playUrl = "原始url";
+  String playUrl = "";
 
   @override
   void initState() {
@@ -184,20 +191,9 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   void getUrl() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String roomIDs = await prefs.get('roomID');
-    var url = 'https://admin.congraedu.cn/api/live/room/${roomIDs}';
-    var response = await http.get(url);
-    var data = await jsonDecode(response.body);
-    setState(() {
-      list = data["data"]["roomInfo"];
-    });
-
-
-
-
-//    String url = "rtmp://202.69.69.180:443/webcast/bshdlive-pc";
-    test(url);
+    String playUrls = "rtmp://202.69.69.180:443/webcast/bshdlive-pc";
+    print("查看新的播放URL"+ playUrls);
+    test(pppUrl);
   }
 }
 //从这里开始上面不动

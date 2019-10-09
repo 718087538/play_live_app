@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
           "home_page": (context) => MyApp(),
           "login_page": (context) => Login(),
           "play_room": (context) => PlayRoom(),
+          'playRoom': (BuildContext context) =>  PlayRoom(),
           "chat": (context) => Chat(),
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
@@ -142,34 +143,33 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 }
 
 Widget _leftInkWel(list, int index, context) {
+
   return InkWell(
     //既然不能路由传参,那就设置缓存喽,到时候再研究路由传参.
     onTap: () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("我被点击了");
+      String ptoken = await prefs.get('token');
+      print("看token"+ptoken);
+      print("roomiDDDDDDDDDDDDD"+list[index]["roomID"]);
+      Map<String, String> _getHeaders() {
+        return <String, String>{
+          'Accept': 'application/json',
+          'token':ptoken,
+        };
+      }
+      //请求直播间信息.
+      var response = await http.get("https://admin.congraedu.cn/api/live/room/${list[index]["roomID"]}",headers: _getHeaders());
+      var data = await jsonDecode(response.body);
+      print('0000000000000000000: ${data}');
+      String canPlayUrl = data["data"]["pullUrlRtmp"];
 
-      String counter = "100000000000000";
-      await prefs.setString('counter', counter);
-//      await print(prefs.get('counter') + "读取+替代路由传参");
+      print("真的url"+canPlayUrl);
 
-//      根据是否有缓存判断是否登录
-//  await print("查看token"+prefs.get('token'));
-      //如果找不到token就代表没有登录,则跳到登录.
       if (prefs.get('token') == "" || prefs.get('token') == null) {
         print("没token,前往登录");
         Navigator.of(context).pushNamed("login_page");
       } else {
-        print("已登录");
-        print(list);
-        await prefs.setString('roomID', list[index]["roomID"]);
-        //设置完缓存就可以去另外的页面读取缓存了
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (BuildContext context) {
-          return PlayRoom();
-        }));
-
-//    Navigator.of(context).pushNamed("play_room");
-//        Navigator.of(context).pushNamed("chat");//聊天的页面
+        Navigator.of(context).pushNamed('playRoom',arguments: canPlayUrl);
       }
     },
     child: Container(
