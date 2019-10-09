@@ -318,10 +318,13 @@ class _MyAppState extends State<msgList2> {
     bool ipc = isProbablyConnected(identifier);
     return Container(
       height: 60.0,
+      padding: EdgeInsets.only(left: 6.0,right: 6.0),
+      margin: EdgeInsets.only(bottom: 6.0),
       child:
       Row(
         children: <Widget>[
           Expanded(
+
             child: TextField(
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -334,12 +337,15 @@ class _MyAppState extends State<msgList2> {
                 }
             ),
           ),
-          RaisedButton(
-            padding: EdgeInsets.all(20),
-            color: Colors.red,
-            textColor: Colors.white,
-            child: Text('发送'),
-            onPressed: ipc ? () => sendMessage(identifier) : null,
+          Container(
+            margin: EdgeInsets.only(left: 6.0),
+            child: RaisedButton(
+              padding: EdgeInsets.all(20),
+              color: Colors.red,
+              textColor: Colors.white,
+              child: Text('发送'),
+              onPressed: ipc ? () => sendMessage(identifier) : null,
+            ),
           )
         ],
       ),
