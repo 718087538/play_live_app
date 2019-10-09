@@ -13,7 +13,9 @@ class PlayRoom extends StatelessWidget {
         appBar: AppBar(
           title: Text('直播间'),
         ),
-        body: new msgList2());
+        body: new msgList2()
+
+    );
   }
 }
 
@@ -79,22 +81,32 @@ class msgList extends StatefulWidget {
   _msgList createState() => _msgList();
 }
 
-List list = [];
+List list = [
+  {'name': " ", 'msg': " ", 'uid': "   "},
+
+];
 
 class _msgList extends State<msgList> {
   ScrollController _scrollController = new ScrollController();
 
   //重置数组列表
-  clearList(){
-//    list = [];
+  num changeNum = 0;
+
+  change(){
+    if(changeNum <1){
+      setState(() {
+        list = [];
+      });
+      changeNum =10;//不小于1就好
+    }
   }
+
   @override
   Widget build(BuildContext context) {
-    clearList();
+    change();
+
     return Expanded(
-
       child: ListView.builder(
-
         itemCount: list.length,
         itemBuilder: (context, index) {
           return _list(list, index, context);
@@ -179,6 +191,7 @@ class msgList2 extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
+
 const String URI = "https://admin.congraedu.cn/api/chat";
 
 //暂存发言的内容
@@ -189,6 +202,7 @@ class _MyAppState extends State<msgList2> {
   SocketIOManager manager;
   Map<String, SocketIO> sockets = {};
   Map<String, bool> _isProbablyConnected = {};
+
 //  String sendContentValue = "";
   @override
   void initState() {
@@ -200,7 +214,7 @@ class _MyAppState extends State<msgList2> {
 //  socket建立连接
   initSocket(String identifier) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    String roomID =await prefs.get('roomID');
+    String roomID = await prefs.get('roomID');
 //    print('打印出的roomID'+roomID);
     setState(() => _isProbablyConnected[identifier] = true);
     SocketIO socket = await manager.createInstance(SocketOptions(
@@ -238,15 +252,13 @@ class _MyAppState extends State<msgList2> {
     setState(() => _isProbablyConnected[identifier] = false);
   }
 
-  sendMessage(identifier) async{
-     SharedPreferences prefs = await  SharedPreferences.getInstance();
+  sendMessage(identifier) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = prefs.get('name');
-     String uid = prefs.get('uid');
-     //房间号
+    String uid = prefs.get('uid');
+    //房间号
 //     String target = prefs.get('name');
     if (sockets[identifier] != null) {
-
-
       sockets[identifier].emit("chat", [
         {
           "target": "1",
@@ -267,31 +279,29 @@ class _MyAppState extends State<msgList2> {
     List msg = [
       "Hello world!",
     ];
-    sockets[identifier].emitWithAck("ack-message", msg).then((data) {
-    });
+    sockets[identifier].emitWithAck("ack-message", msg).then((data) {});
   }
 
   //打印出信息
   pprint(data) {
 //    print(data);
-  //打印留言的信息
+    //打印留言的信息
 
     setState(() {
       print(list.length);
       //模仿上下滚动的效果
-      if(list.length >6){
+      if (list.length > 6) {
         print("删除1个");
         list.removeAt(1);
         print(list);
       }
-       list.add(data["data"]["payload"]);//添加进数组
+      list.add(data["data"]["payload"]); //添加进数组
 //      if (data is Map) {
 //        data = json.encode(data);
 //      }
 //      print(data);
 //      toPrint.add(data);
     });
-
   }
 
   Container getButtonSet(String identifier) {
@@ -303,9 +313,9 @@ class _MyAppState extends State<msgList2> {
         children: <Widget>[
           Expanded(
             child: TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "发言"),
+                decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: "发言"),
                 onChanged: (value) {
                   setState(() {
                     //把文本框的值实时赋给一个变量
@@ -332,19 +342,18 @@ class _MyAppState extends State<msgList2> {
   Widget build(BuildContext context) {
     return
 
-        Container(
+      Container(
 //          color: Colors.black,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              VideoScreen(),
-              msgList(),
-              getButtonSet("default"),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            VideoScreen(),
+            msgList(),
+            getButtonSet("default"),
 
-            ],
-          ),
-        );
-
+          ],
+        ),
+      );
   }
 }
