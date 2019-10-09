@@ -118,7 +118,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
   void _getCategory() async {
 //    var url = 'http://192.168.0.200:7001/api/live/room';//本地
-    var url = 'https://admin.congraedu.cn/api/live/room';//服务器
+    var url = 'https://admin.congraedu.cn/api/live/room'; //服务器
     var response = await http.get(url);
     var data = await jsonDecode(response.body);
     setState(() {
@@ -199,10 +199,21 @@ Widget _leftInkWel(list, int index, context) {
         Container(
           width: 650.0,
           padding: EdgeInsets.only(left: 10.0),
-          child: Text("描述: " + list[index]["description"],
-              style: TextStyle(
-                fontSize: 20.0,
-              )),
+          child: Row(children: <Widget>[
+            Expanded(
+              child: Text("描述: " + list[index]["description"],
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  )),
+            ),
+            Container(
+              padding: EdgeInsets.only(left: 20.0,right: 10.0),
+              child: Text(list[index]["isLive"] ? '已开播' : '未开播',
+                  style: TextStyle(
+                    fontSize: 16.0,
+                  )),
+            )
+          ]),
         ),
       ]),
 //      child: Text(list[index]["title"]),

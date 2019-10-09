@@ -13,8 +13,9 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
 //    fetchData();
     return Scaffold(
+        resizeToAvoidBottomInset:false,
         appBar: AppBar(
-          title: Text('测试页'),
+          title: Text('登录'),
         ),
         body: new MyForm());
   }

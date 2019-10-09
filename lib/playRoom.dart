@@ -5,6 +5,8 @@ import 'package:fijkplayer/fijkplayer.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
+import 'package:http/http.dart' as http;
+
 
 class PlayRoom extends StatelessWidget {
   @override
@@ -182,7 +184,19 @@ class _VideoScreenState extends State<VideoScreen> {
   }
 
   void getUrl() async {
-    String url = "rtmp://202.69.69.180:443/webcast/bshdlive-pc";
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String roomIDs = await prefs.get('roomID');
+    var url = 'https://admin.congraedu.cn/api/live/room/${roomIDs}';
+    var response = await http.get(url);
+    var data = await jsonDecode(response.body);
+    setState(() {
+      list = data["data"]["roomInfo"];
+    });
+
+
+
+
+//    String url = "rtmp://202.69.69.180:443/webcast/bshdlive-pc";
     test(url);
   }
 }
