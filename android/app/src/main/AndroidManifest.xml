@@ -8,7 +8,7 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="congra_app"
+        android:label="空格教育"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
