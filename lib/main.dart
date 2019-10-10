@@ -117,9 +117,21 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   ];
 
   void _getCategory() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String ptoken = await prefs.get('token');
+
+    Map<String, String> _getHeaders() {
+      return <String, String>{
+        'Accept': 'application/json',
+        'token':ptoken,
+      };
+    }
+
+
 //    var url = 'http://192.168.0.200:7001/api/live/room';//本地
     var url = 'https://admin.congraedu.cn/api/live/room'; //服务器
-    var response = await http.get(url);
+    var response = await http.get(url,headers: _getHeaders());
     var data = await jsonDecode(response.body);
     setState(() {
       list = data["data"]["roomInfo"];
@@ -147,27 +159,29 @@ Widget _leftInkWel(list, int index, context) {
     //既然不能路由传参,那就设置缓存喽,到时候再研究路由传参.
     onTap: () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      print("应该没有token");
       String ptoken = await prefs.get('token');
-      print("看token"+ptoken);
-      print("roomiDDDDDDDDDDDDD"+list[index]["roomID"]);
-      Map<String, String> _getHeaders() {
-        return <String, String>{
-          'Accept': 'application/json',
-          'token':ptoken,
-        };
-      }
-      //请求直播间信息.
-      var response = await http.get("https://admin.congraedu.cn/api/live/room/${list[index]["roomID"]}",headers: _getHeaders());
-      var data = await jsonDecode(response.body);
-      print('0000000000000000000: ${data}');
-      String canPlayUrl = data["data"]["pullUrlRtmp"];
 
-      print("真的url"+canPlayUrl);
+      print("roomiDDDDDDDDDDDDD"+list[index]["roomID"]);
+
 
       if (prefs.get('token') == "" || prefs.get('token') == null) {
         print("没token,前往登录");
         Navigator.of(context).pushNamed("login_page");
       } else {
+        Map<String, String> _getHeaders() {
+          return <String, String>{
+            'Accept': 'application/json',
+            'token':ptoken,
+          };
+        }
+        //请求直播间信息.
+        var response = await http.get("https://admin.congraedu.cn/api/live/room/${list[index]["roomID"]}",headers: _getHeaders());
+        var data = await jsonDecode(response.body);
+        print('0000000000000000000: ${data}');
+        String canPlayUrl = data["data"]["pullUrlRtmp"];
+
+        print("真的url"+canPlayUrl);
         Navigator.of(context).pushNamed('playRoom',arguments: canPlayUrl);
       }
     },
@@ -218,66 +232,4 @@ Widget _leftInkWel(list, int index, context) {
 //      child: Text(list[index]["title"]),
     ),
   );
-}
-
-class RoomList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: 10,
-      itemExtent: 200.0, //强制高度为50.0
-      itemBuilder: (BuildContext context, int index) {
-        return new RoomBox();
-      },
-    );
-  }
-}
-
-//直播间的容器
-class RoomBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: RaisedButton(
-        child: Image(
-          image: NetworkImage("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-          fit: BoxFit.fill,
-        ),
-        onPressed: () {
-//          Navigator.pushNamed(context, "Login");
-          //route跳转可行
-//          Navigator.of(context)
-//              .push(MaterialPageRoute(builder: (BuildContext context) {
-//            return Login();
-//          }));
-          goPlay(context);
-        },
-      ),
-      margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-      width: 240.0,
-      //高度,list已经设置了
-    );
-  }
-}
-
-goPlay(context) async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-//  await print("查看token"+prefs.get('token'));
-  //如果找不到token就代表没有登录,则跳到登录.
-  if (prefs.get('token') == "" || prefs.get('token') == null) {
-    print("没token,前往登录");
-    Navigator.of(context).pushNamed("login_page");
-  } else {
-    print("已登录");
-    Navigator.of(context).pushNamed("play_room");
-//    Navigator.of(context).pushNamed("chat");
-  }
-}
-
-getList() async {
-//  print("这里应该请求直播列表");
-  var url = 'http://192.168.0.200:7001/api/live/room';
-  var response = await http.get(url);
-  var data = await jsonDecode(response.body);
-//  print('Response body: ${data["data"]["roomInfo"]}');
 }
