@@ -16,7 +16,6 @@ void main() => runApp(new MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return new MaterialApp(
         title: 'Flutter Demo',
         //注册路由表
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
           "home_page": (context) => MyApp(),
           "login_page": (context) => Login(),
           "play_room": (context) => PlayRoom(),
-          'playRoom': (BuildContext context) =>  PlayRoom(),
+          'playRoom': (BuildContext context) => PlayRoom(),
           "chat": (context) => Chat(),
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
@@ -48,20 +47,27 @@ class _RoomBox2 extends State<RoomBox2> {
   String _loginStatus = "未登录";
   String _btnName = "去登陆";
   bool _isLogin = true;
+  num checkLoginTime = 0;
 
   checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await print(prefs.get('token') + "读取的token");
     if (prefs.get('token') == "" || prefs.get('token') == null) {
-      _isLogin = false;
+      setState(() {
+        _isLogin = false;
+      });
     } else {
-      _isLogin = true;
+      setState(() {
+        _isLogin = true;
+      });
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    checkLogin();
+    if (checkLoginTime < 1) {
+      checkLogin();
+      checkLoginTime++;
+    }
     return Container(
         width: 500.0,
         padding: EdgeInsets.all(10.0),
@@ -117,21 +123,19 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   ];
 
   void _getCategory() async {
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String ptoken = await prefs.get('token');
 
     Map<String, String> _getHeaders() {
       return <String, String>{
         'Accept': 'application/json',
-        'token':ptoken,
+        'token': ptoken,
       };
     }
 
-
 //    var url = 'http://192.168.0.200:7001/api/live/room';//本地
     var url = 'https://admin.congraedu.cn/api/live/room'; //服务器
-    var response = await http.get(url,headers: _getHeaders());
+    var response = await http.get(url, headers: _getHeaders());
     var data = await jsonDecode(response.body);
     setState(() {
       list = data["data"]["roomInfo"];
@@ -154,7 +158,6 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 }
 
 Widget _leftInkWel(list, int index, context) {
-
   return InkWell(
     //既然不能路由传参,那就设置缓存喽,到时候再研究路由传参.
     onTap: () async {
@@ -162,8 +165,7 @@ Widget _leftInkWel(list, int index, context) {
       print("应该没有token");
       String ptoken = await prefs.get('token');
 
-      print("roomiDDDDDDDDDDDDD"+list[index]["roomID"]);
-
+      print("roomiDDDDDDDDDDDDD" + list[index]["roomID"]);
 
       if (prefs.get('token') == "" || prefs.get('token') == null) {
         print("没token,前往登录");
@@ -172,17 +174,20 @@ Widget _leftInkWel(list, int index, context) {
         Map<String, String> _getHeaders() {
           return <String, String>{
             'Accept': 'application/json',
-            'token':ptoken,
+            'token': ptoken,
           };
         }
+
         //请求直播间信息.
-        var response = await http.get("https://admin.congraedu.cn/api/live/room/${list[index]["roomID"]}",headers: _getHeaders());
+        var response = await http.get(
+            "https://admin.congraedu.cn/api/live/room/${list[index]["roomID"]}",
+            headers: _getHeaders());
         var data = await jsonDecode(response.body);
         print('0000000000000000000: ${data}');
         String canPlayUrl = data["data"]["pullUrlRtmp"];
 
-        print("真的url"+canPlayUrl);
-        Navigator.of(context).pushNamed('playRoom',arguments: canPlayUrl);
+        print("真的url" + canPlayUrl);
+        Navigator.of(context).pushNamed('playRoom', arguments: canPlayUrl);
       }
     },
     child: Container(
@@ -220,7 +225,7 @@ Widget _leftInkWel(list, int index, context) {
                   )),
             ),
             Container(
-              padding: EdgeInsets.only(left: 20.0,right: 10.0),
+              padding: EdgeInsets.only(left: 20.0, right: 10.0),
               child: Text(list[index]["isLive"] ? '已开播' : '未开播',
                   style: TextStyle(
                     fontSize: 16.0,
