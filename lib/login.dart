@@ -40,16 +40,17 @@ class _MyForm extends State<MyForm> {
 
   @override
   Widget build(BuildContext context) {
-//    SvgPicture close = new SvgPicture.asset("assets/seting.svg");
+    SvgPicture close = new SvgPicture.asset("assets/seting.svg");
 
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: Column(
         children: <Widget>[
+
           SizedBox(
-            width: 50.0,
-            height: 50.0,
-//            child: close,
+            width: 300.0,
+            height: 120.0,
+            child: Image.network("https://s2.ax1x.com/2019/10/10/uTcxPg.png"),
           ),
           SizedBox(
             height: 20.0,
@@ -95,7 +96,11 @@ class _MyForm extends State<MyForm> {
               color: Colors.blue,
               textColor: Colors.white,
             ),
-          )
+          ),
+          SizedBox(
+            height: 60.0,
+          ),
+          Text("联系邮箱:congra002@163.com")
         ],
       ),
     );

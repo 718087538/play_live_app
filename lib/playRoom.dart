@@ -22,27 +22,29 @@ class _HomePageState extends State<PlayRoom>  {
     setState(() => _isProbablyConnected[identifier] = false);
   }
   //点击返回时弹出框
-  Future<bool> _onWillPop() {
-    return showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('提醒'),
-        content: new Text('是否退出学习?'),
-        actions: <Widget>[
-          new FlatButton(
-            onPressed: () => Navigator.of(context).pop(false),
-            child: new Text('否'),
-          ),
-          new FlatButton(
-            onPressed: () async{
-              await disconnect("default");
-              await Navigator.of(context).pop(true);
-            },
-            child: new Text('是'),
-          ),
-        ],
-      ),
-    ) ?? false;
+  Future<bool> _onWillPop() async{
+    await disconnect("default");
+    await Navigator.of(context).pop(true);
+//    return showDialog(
+//      context: context,
+//      builder: (context) => new AlertDialog(
+//        title: new Text('提醒'),
+//        content: new Text('是否退出学习?'),
+//        actions: <Widget>[
+//          new FlatButton(
+//            onPressed: () => Navigator.of(context).pop(false),
+//            child: new Text('否'),
+//          ),
+//          new FlatButton(
+//            onPressed: () async{
+//              await disconnect("default");
+//              await Navigator.of(context).pop(true);
+//            },
+//            child: new Text('是'),
+//          ),
+//        ],
+//      ),
+//    ) ?? false;
   }
 
   @override
