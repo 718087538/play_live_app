@@ -8,17 +8,59 @@ import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:http/http.dart' as http;
 
 String pppUrl;
-class PlayRoom extends StatelessWidget {
+
+class PlayRoom extends StatefulWidget {
+  PlayRoom({Key key, this.title}) :super(key: key);
+  final String title;
+  @override
+  State<StatefulWidget> createState() => new _HomePageState();
+}
+
+
+class _HomePageState extends State<PlayRoom>  {
+
+
+  Future<bool> _onWillPop() {
+    var MyAppState = new _MyAppState();
+
+    return showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('提醒'),
+        content: new Text('是否退出学习?'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('否'),
+          ),
+          new FlatButton(
+            onPressed: (){
+              MyAppState.disconnect("default");
+
+
+              Navigator.of(context).pop(true);
+            },
+            child: new Text('是'),
+          ),
+        ],
+      ),
+    ) ?? false;
+  }
+
+
   @override
   Widget build(BuildContext context) {
 //获取路由参数
     var args = ModalRoute.of(context).settings.arguments;
     pppUrl = args;
-    return Scaffold(
-        appBar: AppBar(
-          title: Text('直播间'),
-        ),
-        body: new msgList2());
+    return new WillPopScope(
+      onWillPop:_onWillPop,
+      child:Scaffold(
+          appBar: AppBar(
+            title: Text('直播间'),
+          ),
+          body: new msgList2())
+    );
   }
 }
 
@@ -199,6 +241,8 @@ const String URI = "https://admin.congraedu.cn/api/chat";
 //暂存发言的内容
 String sendContentValue222 = "";
 
+
+//与socket相关的内容,都在这里.
 class _MyAppState extends State<msgList2> {
   List<String> toPrint = ["trying to connect"];
   SocketIOManager manager;
@@ -239,6 +283,7 @@ class _MyAppState extends State<msgList2> {
       print(data);
 //      sendMessage(identifier);
     });
+    socket.onDisconnect(pprint);
     socket.on("chat", (data) => pprint(data));
     socket.connect();
     sockets[identifier] = socket;
@@ -248,6 +293,7 @@ class _MyAppState extends State<msgList2> {
     return _isProbablyConnected[identifier] ?? false;
   }
 
+  //断开socket的方法.
   disconnect(String identifier) async {
     await manager.clearInstance(sockets[identifier]);
     setState(() => _isProbablyConnected[identifier] = false);

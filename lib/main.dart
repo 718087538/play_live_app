@@ -125,6 +125,8 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 
   void _getCategory() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    //未登录时token应该未空,可能出现问题,暂时没出现问题.
     String ptoken = await prefs.get('token');
 
     Map<String, String> _getHeaders() {
