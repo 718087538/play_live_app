@@ -7,24 +7,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:http/http.dart' as http;
 
-String pppUrl ;
-
+String pppUrl;
 class PlayRoom extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
 //获取路由参数
-    var args=ModalRoute.of(context).settings.arguments;
+    var args = ModalRoute.of(context).settings.arguments;
     pppUrl = args;
-    print("传参++++++++++++++++++++++"+args);
     return Scaffold(
         appBar: AppBar(
           title: Text('直播间'),
         ),
-        body: new msgList2()
-
-    );
+        body: new msgList2());
   }
 }
 
@@ -66,10 +60,8 @@ class _sendMsg extends State<sendMsg> {
         children: <Widget>[
           Expanded(
             child: TextField(
-              decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: "发言"),
-
+              decoration:
+                  InputDecoration(border: OutlineInputBorder(), hintText: "发言"),
             ),
           ),
           RaisedButton(
@@ -92,7 +84,6 @@ class msgList extends StatefulWidget {
 
 List list = [
   {'name': " ", 'msg': " ", 'uid': "   "},
-
 ];
 
 class _msgList extends State<msgList> {
@@ -101,18 +92,19 @@ class _msgList extends State<msgList> {
   //重置数组列表
   num changeNum = 0;
 
-  change(){
-    if(changeNum <1){
-      setState(() {
-        list = [];
-      });
-      changeNum =10;//不小于1就好
-    }
+  change() {
+    setState(() {
+      list = [];
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    change();
+    if (changeNum < 1) {
+      change();
+      changeNum++; //不小于1就好
+
+    }
 
     return Expanded(
       child: ListView.builder(
@@ -192,10 +184,10 @@ class _VideoScreenState extends State<VideoScreen> {
 
   void getUrl() async {
     String playUrls = "rtmp://202.69.69.180:443/webcast/bshdlive-pc";
-    print("查看新的播放URL"+ playUrls);
     test(pppUrl);
   }
 }
+
 //从这里开始上面不动
 class msgList2 extends StatefulWidget {
   @override
@@ -225,10 +217,9 @@ class _MyAppState extends State<msgList2> {
   initSocket(String identifier) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String roomID = await prefs.get('roomID');
-//    print('打印出的roomID'+roomID);
     setState(() => _isProbablyConnected[identifier] = true);
     SocketIO socket = await manager.createInstance(SocketOptions(
-      //Socket IO server URI
+        //Socket IO server URI
         URI,
         nameSpace: (identifier == "namespaced") ? "/adhara" : "/",
         //Query params - can be used for authentication
@@ -242,11 +233,11 @@ class _MyAppState extends State<msgList2> {
         transports: [
           Transports.WEB_SOCKET /*, Transports.POLLING*/
         ] //Enable required transport
-    ));
+        ));
     socket.onConnect((data) {
-      pprint("connected..连接成功.");
-      pprint(data);
-      sendMessage(identifier);
+      print("connected..连接成功连接成功连接成功连接成功.");
+      print(data);
+//      sendMessage(identifier);
     });
     socket.on("chat", (data) => pprint(data));
     socket.connect();
@@ -266,12 +257,14 @@ class _MyAppState extends State<msgList2> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String name = prefs.get('name');
     String uid = prefs.get('uid');
+    String roomID = await prefs.get('roomID');
+
     //房间号
 //     String target = prefs.get('name');
     if (sockets[identifier] != null) {
       sockets[identifier].emit("chat", [
         {
-          "target": "1",
+          "target": roomID,
           "payload": {
             "msg": sendContentValue222,
             "name": name,
@@ -316,70 +309,57 @@ class _MyAppState extends State<msgList2> {
 
   final TextEditingController _controller = new TextEditingController();
 
-
-
   Container getButtonSet(String identifier) {
     bool ipc = isProbablyConnected(identifier);
     return Container(
       height: 60.0,
-      padding: EdgeInsets.only(left: 6.0,right: 6.0),
+      padding: EdgeInsets.only(left: 6.0, right: 6.0),
       margin: EdgeInsets.only(bottom: 6.0),
-      child:
-      Row(
+      child: Row(
         children: <Widget>[
           Expanded(
-
             child: TextField(
-              controller: _controller,
+                controller: _controller,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: "发言"),
+                    border: OutlineInputBorder(), hintText: "发言"),
                 onChanged: (value) {
                   setState(() {
                     //把文本框的值实时赋给一个变量
                     sendContentValue222 = value;
                   });
-                }
-            ),
+                }),
           ),
           Container(
             margin: EdgeInsets.only(left: 6.0),
             child: RaisedButton(
-              padding: EdgeInsets.all(20),
-              color: Colors.red,
-              textColor: Colors.white,
-              child: Text('发送'),
+                padding: EdgeInsets.all(20),
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text('发送'),
 //              onPressed: ipc ? () => sendMessage(identifier) : null,
-              onPressed: (){
-                sendMessage(identifier);
-              _controller.clear();
-              }
-
-            ),
+                onPressed: () {
+                  sendMessage(identifier);
+                  _controller.clear();
+                }),
           )
         ],
       ),
-
-
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return
-
-      Container(
+    return Container(
 //          color: Colors.black,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            VideoScreen(),
-            msgList(),
-            getButtonSet("default"),
-
-          ],
-        ),
-      );
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: <Widget>[
+          VideoScreen(),
+          msgList(),
+          getButtonSet("default"),
+        ],
+      ),
+    );
   }
 }

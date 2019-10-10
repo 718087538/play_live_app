@@ -1,5 +1,6 @@
 import 'package:congra_app/list.dart';
 import 'package:congra_app/playRoom.dart';
+import 'package:congra_app/playRoom.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -185,9 +186,11 @@ Widget _leftInkWel(list, int index, context) {
         var data = await jsonDecode(response.body);
         print('0000000000000000000: ${data}');
         String canPlayUrl = data["data"]["pullUrlRtmp"];
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('roomID', list[index]["roomID"]);
 
         print("真的url" + canPlayUrl);
-        Navigator.of(context).pushNamed('playRoom', arguments: canPlayUrl);
+        Navigator.of(context).pushNamed('playRoom', arguments:canPlayUrl);
       }
     },
     child: Container(
