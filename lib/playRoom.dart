@@ -16,13 +16,13 @@ class PlayRoom extends StatefulWidget {
   State<StatefulWidget> createState() => new _HomePageState();
 }
 
-
 class _HomePageState extends State<PlayRoom>  {
-
-
+  disconnect(String identifier) async {
+    await manager.clearInstance(sockets[identifier]);
+    setState(() => _isProbablyConnected[identifier] = false);
+  }
+  //点击返回时弹出框
   Future<bool> _onWillPop() {
-    var MyAppState = new _MyAppState();
-
     return showDialog(
       context: context,
       builder: (context) => new AlertDialog(
@@ -34,11 +34,9 @@ class _HomePageState extends State<PlayRoom>  {
             child: new Text('否'),
           ),
           new FlatButton(
-            onPressed: (){
-              MyAppState.disconnect("default");
-
-
-              Navigator.of(context).pop(true);
+            onPressed: () async{
+              await disconnect("default");
+              await Navigator.of(context).pop(true);
             },
             child: new Text('是'),
           ),
@@ -46,7 +44,6 @@ class _HomePageState extends State<PlayRoom>  {
       ),
     ) ?? false;
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -59,16 +56,15 @@ class _HomePageState extends State<PlayRoom>  {
           appBar: AppBar(
             title: Text('直播间'),
           ),
-          body: new msgList2())
+          body: new myAppState())
     );
   }
 }
 
-//从这里开始不动
+//播放直播视频
 class PlayPage extends StatefulWidget {
   _PlayPage createState() => _PlayPage();
 }
-
 class _PlayPage extends State<PlayPage> {
   @override
   Widget build(BuildContext context) {
@@ -86,14 +82,12 @@ class _PlayPage extends State<PlayPage> {
   }
 }
 
-//发送消息类
+//发送消息
 class sendMsg extends StatefulWidget {
   _sendMsg createState() => _sendMsg();
 }
-
 class _sendMsg extends State<sendMsg> {
   String msgContent;
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -119,7 +113,7 @@ class _sendMsg extends State<sendMsg> {
   }
 }
 
-//消息列表类
+//展示消息内容
 class msgList extends StatefulWidget {
   _msgList createState() => _msgList();
 }
@@ -127,13 +121,10 @@ class msgList extends StatefulWidget {
 List list = [
   {'name': " ", 'msg': " ", 'uid': "   "},
 ];
-
 class _msgList extends State<msgList> {
   ScrollController _scrollController = new ScrollController();
-
   //重置数组列表
   num changeNum = 0;
-
   change() {
     setState(() {
       list = [];
@@ -145,7 +136,6 @@ class _msgList extends State<msgList> {
     if (changeNum < 1) {
       change();
       changeNum++; //不小于1就好
-
     }
 
     return Expanded(
@@ -186,7 +176,6 @@ class VideoScreen extends StatefulWidget {
   @override
   _VideoScreenState createState() => _VideoScreenState();
 }
-
 class _VideoScreenState extends State<VideoScreen> {
   final FijkPlayer player = FijkPlayer();
   String playUrl = "";
@@ -229,25 +218,25 @@ class _VideoScreenState extends State<VideoScreen> {
     test(pppUrl);
   }
 }
-
 //从这里开始上面不动
-class msgList2 extends StatefulWidget {
+
+
+class myAppState extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
-
 const String URI = "https://admin.congraedu.cn/api/chat";
 
 //暂存发言的内容
 String sendContentValue222 = "";
+List<String> toPrint = ["trying to connect"];
+SocketIOManager manager;
+Map<String, SocketIO> sockets = {};
+Map<String, bool> _isProbablyConnected = {};
 
 
 //与socket相关的内容,都在这里.
-class _MyAppState extends State<msgList2> {
-  List<String> toPrint = ["trying to connect"];
-  SocketIOManager manager;
-  Map<String, SocketIO> sockets = {};
-  Map<String, bool> _isProbablyConnected = {};
+class _MyAppState extends State<myAppState> {
 
 //  String sendContentValue = "";
   @override
@@ -333,9 +322,6 @@ class _MyAppState extends State<msgList2> {
 
   //打印出信息
   pprint(data) {
-//    print(data);
-    //打印留言的信息
-
     setState(() {
       print(list.length);
       //模仿上下滚动的效果
@@ -345,11 +331,6 @@ class _MyAppState extends State<msgList2> {
         print(list);
       }
       list.add(data["data"]["payload"]); //添加进数组
-//      if (data is Map) {
-//        data = json.encode(data);
-//      }
-//      print(data);
-//      toPrint.add(data);
     });
   }
 
