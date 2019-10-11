@@ -25,6 +25,7 @@ class _HomePageState extends State<PlayRoom>  {
   Future<bool> _onWillPop() async{
     await disconnect("default");
     await Navigator.of(context).pop(true);
+//    await Navigator.of(context).pushNamed("home");
 //    return showDialog(
 //      context: context,
 //      builder: (context) => new AlertDialog(

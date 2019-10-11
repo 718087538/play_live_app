@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
           "play_room": (context) => PlayRoom(),
           'playRoom': (BuildContext context) => PlayRoom(),
           "chat": (context) => Chat(),
+          "home":(context) => MyApp(),
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
 //          },
@@ -93,23 +94,9 @@ class _RoomBox2 extends State<RoomBox2> {
                 )
               ],
             ),
-//            Test100(),
             LeftCategoryNav(),
           ],
         ));
-  }
-}
-
-class Test100 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      children: <Widget>[
-        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-        Image.network("https://s2.ax1x.com/2019/09/04/nVUFeS.jpg"),
-      ],
-    ));
   }
 }
 
@@ -120,7 +107,7 @@ class LeftCategoryNav extends StatefulWidget {
 
 class _LeftCategoryNavState extends State<LeftCategoryNav> {
   List list = [
-    {'title': "123456"},
+    {'title': "congra",'description':"congra",'imgUrl':"https://s2.ax1x.com/2019/10/10/uTcxPg.png"},
   ];
 
   void _getCategory() async {
@@ -172,7 +159,12 @@ Widget _leftInkWel(list, int index, context) {
 
       if (prefs.get('token') == "" || prefs.get('token') == null) {
         print("没token,前往登录");
-        Navigator.of(context).pushNamed("login_page");
+//        Navigator.of(context).pushNamed("login_page");
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('请先登录账号!'),
+            ));
       } else {
         Map<String, String> _getHeaders() {
           return <String, String>{
