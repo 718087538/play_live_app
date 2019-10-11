@@ -1,16 +1,12 @@
-import 'package:congra_app/list.dart';
 import 'package:congra_app/playRoom.dart';
-import 'package:congra_app/playRoom.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-//import 'test.dart';
 import 'login.dart';
 import 'playRoom.dart';
 import 'test3.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() => runApp(new MyApp());
 
@@ -32,9 +28,6 @@ class MyApp extends StatelessWidget {
           "play_room": (context) => PlayRoom(),
           'playRoom': (BuildContext context) => PlayRoom(),
           "chat": (context) => Chat(),
-//          "tip2": (context){
-//            return TipRoute(text: ModalRoute.of(context).settings.arguments);
-//          },
         },
         home: WillPopScope(
           onWillPop: _onWillPop,
@@ -44,7 +37,6 @@ class MyApp extends StatelessWidget {
               ),
               body: RoomBox2()),
         ));
-//            body: LeftCategoryNav()));
   }
 }
 
@@ -54,13 +46,12 @@ class RoomBox2 extends StatefulWidget {
 }
 
 class _RoomBox2 extends State<RoomBox2> {
-  String _loginStatus = "未登录";
-  String _btnName = "去登陆";
   bool _isLogin = true;
   num checkLoginTime = 0;
 
   checkLogin() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    //可能是这里报错1
     if (prefs.get('token') == "" || prefs.get('token') == null) {
       setState(() {
         _isLogin = false;
@@ -118,7 +109,8 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
     {
       'title': "congra",
       'description': "congra",
-      'imgUrl': "https://s2.ax1x.com/2019/10/10/uTcxPg.png"
+      'imgUrl': "https://s2.ax1x.com/2019/10/10/uTcxPg.png",
+      'isLive':false,
     },
   ];
 
@@ -164,11 +156,7 @@ Widget _leftInkWel(list, int index, context) {
     //既然不能路由传参,那就设置缓存喽,到时候再研究路由传参.
     onTap: () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      print("应该没有token");
       String ptoken = await prefs.get('token');
-
-      print("roomiDDDDDDDDDDDDD" + list[index]["roomID"]);
-
       if (prefs.get('token') == "" || prefs.get('token') == null) {
         print("没token,前往登录");
 //        Navigator.of(context).pushNamed("login_page");
@@ -190,12 +178,9 @@ Widget _leftInkWel(list, int index, context) {
             "https://admin.congraedu.cn/api/live/room/${list[index]["roomID"]}",
             headers: _getHeaders());
         var data = await jsonDecode(response.body);
-        print('0000000000000000000: ${data}');
         String canPlayUrl = data["data"]["pullUrlRtmp"];
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('roomID', list[index]["roomID"]);
-
-        print("真的url" + canPlayUrl);
         Navigator.of(context).pushNamed('playRoom', arguments: canPlayUrl);
       }
     },
