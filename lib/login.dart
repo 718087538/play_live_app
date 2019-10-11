@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:uuid/uuid.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var uuid = new Uuid();
@@ -40,8 +39,6 @@ class _MyForm extends State<MyForm> {
 
   @override
   Widget build(BuildContext context) {
-//    SvgPicture close = new SvgPicture.asset("assets/seting.svg");
-
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: Column(
@@ -49,7 +46,7 @@ class _MyForm extends State<MyForm> {
           SizedBox(
             width: 300.0,
             height: 120.0,
-            child: Image.network("https://s2.ax1x.com/2019/10/10/uTcxPg.png"),
+            child: Image.asset("assets/loginLogo.png"),
           ),
           SizedBox(
             height: 20.0,
