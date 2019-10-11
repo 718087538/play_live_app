@@ -1,4 +1,4 @@
-import 'package:congra_app/demo/demo1++.dart';
+import 'package:congra_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -145,7 +145,10 @@ Login2(context , _mobile ,_password) async {
     //登录成功跳转到首页
 //    Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
     //命名路由传递参数
-    Navigator.of(context).pushNamed("home_page");
+//    Navigator.of(context).pushNamed("home_page");
+    Navigator.of(context).pushAndRemoveUntil(
+        new MaterialPageRoute(builder: (context) => new MyApp()
+        ), (route) => route == null);
   }else{
     showDialog(
         context: context,

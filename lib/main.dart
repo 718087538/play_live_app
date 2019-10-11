@@ -15,6 +15,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
+  Future<bool> _onWillPop() {
+    print("不能再返回了11111111111111");
+
+    return Future.value(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
@@ -26,16 +32,18 @@ class MyApp extends StatelessWidget {
           "play_room": (context) => PlayRoom(),
           'playRoom': (BuildContext context) => PlayRoom(),
           "chat": (context) => Chat(),
-          "home":(context) => MyApp(),
 //          "tip2": (context){
 //            return TipRoute(text: ModalRoute.of(context).settings.arguments);
 //          },
         },
-        home: Scaffold(
-            appBar: AppBar(
-              title: Text('空格教育'),
-            ),
-            body: RoomBox2()));
+        home: WillPopScope(
+          onWillPop: _onWillPop,
+          child: Scaffold(
+              appBar: AppBar(
+                title: Text('空格教育'),
+              ),
+              body: RoomBox2()),
+        ));
 //            body: LeftCategoryNav()));
   }
 }
@@ -107,7 +115,11 @@ class LeftCategoryNav extends StatefulWidget {
 
 class _LeftCategoryNavState extends State<LeftCategoryNav> {
   List list = [
-    {'title': "congra",'description':"congra",'imgUrl':"https://s2.ax1x.com/2019/10/10/uTcxPg.png"},
+    {
+      'title': "congra",
+      'description': "congra",
+      'imgUrl': "https://s2.ax1x.com/2019/10/10/uTcxPg.png"
+    },
   ];
 
   void _getCategory() async {
@@ -163,8 +175,8 @@ Widget _leftInkWel(list, int index, context) {
         showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: Text('请先登录账号!'),
-            ));
+                  title: Text('请先登录账号!'),
+                ));
       } else {
         Map<String, String> _getHeaders() {
           return <String, String>{
@@ -184,7 +196,7 @@ Widget _leftInkWel(list, int index, context) {
         await prefs.setString('roomID', list[index]["roomID"]);
 
         print("真的url" + canPlayUrl);
-        Navigator.of(context).pushNamed('playRoom', arguments:canPlayUrl);
+        Navigator.of(context).pushNamed('playRoom', arguments: canPlayUrl);
       }
     },
     child: Container(
