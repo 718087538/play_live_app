@@ -10,19 +10,21 @@ import 'package:http/http.dart' as http;
 String pppUrl;
 
 class PlayRoom extends StatefulWidget {
-  PlayRoom({Key key, this.title}) :super(key: key);
+  PlayRoom({Key key, this.title}) : super(key: key);
   final String title;
+
   @override
   State<StatefulWidget> createState() => new _HomePageState();
 }
 
-class _HomePageState extends State<PlayRoom>  {
+class _HomePageState extends State<PlayRoom> {
   disconnect(String identifier) async {
     await manager.clearInstance(sockets[identifier]);
     setState(() => _isProbablyConnected[identifier] = false);
   }
+
   //点击返回时弹出框
-  Future<bool> _onWillPop() async{
+  Future<bool> _onWillPop() async {
     await disconnect("default");
     await Navigator.of(context).pop(true);
 //    await Navigator.of(context).pushNamed("home");
@@ -53,13 +55,12 @@ class _HomePageState extends State<PlayRoom>  {
     var args = ModalRoute.of(context).settings.arguments;
     pppUrl = args;
     return new WillPopScope(
-      onWillPop:_onWillPop,
-      child:Scaffold(
-          appBar: AppBar(
-            title: Text('直播间'),
-          ),
-          body: new myAppState())
-    );
+        onWillPop: _onWillPop,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Text('直播间'),
+            ),
+            body: new myAppState()));
   }
 }
 
@@ -67,6 +68,7 @@ class _HomePageState extends State<PlayRoom>  {
 class PlayPage extends StatefulWidget {
   _PlayPage createState() => _PlayPage();
 }
+
 class _PlayPage extends State<PlayPage> {
   @override
   Widget build(BuildContext context) {
@@ -88,8 +90,10 @@ class _PlayPage extends State<PlayPage> {
 class sendMsg extends StatefulWidget {
   _sendMsg createState() => _sendMsg();
 }
+
 class _sendMsg extends State<sendMsg> {
   String msgContent;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -123,10 +127,13 @@ class msgList extends StatefulWidget {
 List list = [
   {'name': " ", 'msg': " ", 'uid': "   "},
 ];
+
 class _msgList extends State<msgList> {
   ScrollController _scrollController = new ScrollController();
+
   //重置数组列表
   num changeNum = 0;
+
   change() {
     setState(() {
       list = [];
@@ -178,6 +185,7 @@ class VideoScreen extends StatefulWidget {
   @override
   _VideoScreenState createState() => _VideoScreenState();
 }
+
 class _VideoScreenState extends State<VideoScreen> {
   final FijkPlayer player = FijkPlayer();
   String playUrl = "";
@@ -222,11 +230,11 @@ class _VideoScreenState extends State<VideoScreen> {
 }
 //从这里开始上面不动
 
-
 class myAppState extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
+
 const String URI = "https://admin.congraedu.cn/api/chat";
 
 //暂存发言的内容
@@ -236,10 +244,8 @@ SocketIOManager manager;
 Map<String, SocketIO> sockets = {};
 Map<String, bool> _isProbablyConnected = {};
 
-
 //与socket相关的内容,都在这里.
 class _MyAppState extends State<myAppState> {
-
 //  String sendContentValue = "";
   @override
   void initState() {
@@ -327,7 +333,7 @@ class _MyAppState extends State<myAppState> {
     setState(() {
       print(list.length);
       //模仿上下滚动的效果
-      if (list.length > 6) {
+      if (list.length > 12) {
         print("删除1个");
         list.removeAt(1);
         print(list);
@@ -366,9 +372,12 @@ class _MyAppState extends State<myAppState> {
                 textColor: Colors.white,
                 child: Text('发送'),
 //              onPressed: ipc ? () => sendMessage(identifier) : null,
-                onPressed: () {
-                  sendMessage(identifier);
-                  _controller.clear();
+                onPressed: () async{
+                  if(sendContentValue222!=""){
+                    await sendMessage(identifier);
+                    await _controller.clear();
+                    sendContentValue222 = "";
+                  }
                 }),
           )
         ],
@@ -385,6 +394,18 @@ class _MyAppState extends State<myAppState> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           VideoScreen(),
+          Container(
+            width: 500.0,
+            padding: EdgeInsets.all(10.0),
+            child: Text(
+              "提醒:有课的时候才可以观看!",
+              textAlign: TextAlign.right,
+              style: TextStyle(
+                color: Colors.deepOrangeAccent,
+                fontSize: 20.0,
+              ),
+            ),
+          ),
           msgList(),
           getButtonSet("default"),
         ],
