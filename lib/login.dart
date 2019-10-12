@@ -54,8 +54,8 @@ class _MyForm extends State<MyForm> {
           TextField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: "请输入密码",
-                  labelText: "密码"),
+                  hintText: "请输入账号",
+                  labelText: "账号"),
               onChanged: (value) {
                 setState(() {
                   //把文本框的值实时赋给一个变量
