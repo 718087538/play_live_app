@@ -12,7 +12,8 @@ class Login extends StatelessWidget {
   Widget build(BuildContext context) {
 //    fetchData();
     return Scaffold(
-        resizeToAvoidBottomInset:false,
+        resizeToAvoidBottomInset: false,
+
         appBar: AppBar(
           title: Text('登录'),
         ),
@@ -36,14 +37,13 @@ class _MyForm extends State<MyForm> {
 //    super.initState();
 //    _username.text = '初始值';
 //  }
-
+  bool _checkboxSelected = true; //维护复
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(20.0),
       child: Column(
         children: <Widget>[
-
           SizedBox(
             width: 300.0,
             height: 120.0,
@@ -79,15 +79,37 @@ class _MyForm extends State<MyForm> {
               }),
 
           SizedBox(height: 20.0),
+
+          Row(children: <Widget>[
+            Checkbox(
+              value: _checkboxSelected,
+              activeColor: Colors.red, //选中时的颜色
+              onChanged: (value) {
+                setState(() {
+                  _checkboxSelected = value;
+                });
+              },
+            ),
+            FlatButton(
+              padding: EdgeInsets.only(left: 0.0),
+              child: Text("阅读并同意用户协议!"),
+            onPressed: (){
+              Navigator.pushNamed(context, "readme");
+            },
+            )
+          ]),
+
+          SizedBox(height: 20.0),
+
           Container(
             width: double.infinity, //让按钮宽度自适应
             height: 50.0,
             child: RaisedButton(
               child: Text("登录"),
               onPressed: () {
-                print("账号"+this._password2); //打印输入框的值
-                print("密码"+this._password); //打印输入框的值.密码不用加.text
-                Login2(context,_password2,_password);
+                print("账号" + this._password2); //打印输入框的值
+                print("密码" + this._password); //打印输入框的值.密码不用加.text
+                Login2(context, _password2, _password);
 //                huanCun();
               },
               color: Colors.blue,
@@ -114,21 +136,18 @@ fetchData() async {
   print('Response body: ${_data["data"]["svgCode"]}'); //可以获得svg图片
 }
 
-
 //用于登录的方法.用到了
-Login2(context , _mobile ,_password) async {
+Login2(context, _mobile, _password) async {
   var url = 'https://admin.congraedu.cn/api/student/login';
-  var response = await http
-      .post(url, body: {'mobile':_mobile, 'password': _password});
+  var response =
+      await http.post(url, body: {'mobile': _mobile, 'password': _password});
 //    print('Response status: ${response.statusCode}');
 //    print('Response body: ${response.body}');
-
-
 
   var data = await jsonDecode(response.body);
   print('Response body: ${data}');
   var _code = data["code"];
-  if(_code == 200){
+  if (_code == 200) {
     String token = data["data"]["token"];
     String name = data["data"]["name"];
     String uid = data["data"]["uid"];
@@ -145,14 +164,14 @@ Login2(context , _mobile ,_password) async {
     //命名路由传递参数
 //    Navigator.of(context).pushNamed("home_page");
     Navigator.of(context).pushAndRemoveUntil(
-        new MaterialPageRoute(builder: (context) => new MyApp()
-        ), (route) => route == null);
-  }else{
+        new MaterialPageRoute(builder: (context) => new MyApp()),
+        (route) => route == null);
+  } else {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('密码错误'),
-        ));
+              title: Text('密码错误'),
+            ));
   }
 }
 

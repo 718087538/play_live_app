@@ -7,7 +7,7 @@ import 'dart:convert';
 import 'login.dart';
 import 'playRoom.dart';
 import 'test3.dart';
-
+import 'allowThat.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
           "play_room": (context) => PlayRoom(),
           'playRoom': (BuildContext context) => PlayRoom(),
           "chat": (context) => Chat(),
+          "readme":(context) => userRlue(),
         },
         home: WillPopScope(
           onWillPop: _onWillPop,
