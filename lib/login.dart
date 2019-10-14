@@ -31,8 +31,8 @@ class MyForm extends StatefulWidget {
 
 class _MyForm extends State<MyForm> {
 //var _username = new TextEditingController();//这个方法用于初始化赋值,如果不赋值,下面的方法更好
-  String _password2;
-  String _password;
+  String _password2 ="";
+  String _password = "";
   bool selStatus = true; //用户协议
 
   @override
@@ -147,6 +147,17 @@ fetchData() async {
 
 //用于登录的方法.用到了
 Login2(context, _mobile, _password,recStatus) async {
+
+  if(_mobile  == "" || _password == ""){
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('请输入账号或密码!'),
+        ));
+    return false;
+  }
+
+
 
   if(!recStatus){
     print("没有同意同意");
