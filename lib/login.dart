@@ -27,17 +27,21 @@ class MyForm extends StatefulWidget {
   _MyForm createState() => _MyForm();
 }
 
+
+
 class _MyForm extends State<MyForm> {
 //var _username = new TextEditingController();//这个方法用于初始化赋值,如果不赋值,下面的方法更好
   String _password2;
   String _password;
+  bool selStatus = true; //用户协议
 
   @override
 //  void initState() {
 //    super.initState();
 //    _username.text = '初始值';
 //  }
-  bool _checkboxSelected = true; //维护复
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -82,17 +86,22 @@ class _MyForm extends State<MyForm> {
 
           Row(children: <Widget>[
             Checkbox(
-              value: _checkboxSelected,
+              value: selStatus,
               activeColor: Colors.red, //选中时的颜色
               onChanged: (value) {
                 setState(() {
-                  _checkboxSelected = value;
+                  selStatus = value;
                 });
               },
             ),
             FlatButton(
               padding: EdgeInsets.only(left: 0.0),
-              child: Text("阅读并同意用户协议!"),
+              child: Text("阅读并同意用户协议!",
+                style: new TextStyle(
+                  color:Colors.lightBlue,
+                ),
+
+              ),
             onPressed: (){
               Navigator.pushNamed(context, "readme");
             },
@@ -109,7 +118,7 @@ class _MyForm extends State<MyForm> {
               onPressed: () {
                 print("账号" + this._password2); //打印输入框的值
                 print("密码" + this._password); //打印输入框的值.密码不用加.text
-                Login2(context, _password2, _password);
+                Login2(context, _password2, _password, selStatus);
 //                huanCun();
               },
               color: Colors.blue,
@@ -137,7 +146,18 @@ fetchData() async {
 }
 
 //用于登录的方法.用到了
-Login2(context, _mobile, _password) async {
+Login2(context, _mobile, _password,recStatus) async {
+
+  if(!recStatus){
+    print("没有同意同意");
+    showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('请同意用户协议!'),
+        ));
+    return false;
+  }
+
   var url = 'https://admin.congraedu.cn/api/student/login';
   var response =
       await http.post(url, body: {'mobile': _mobile, 'password': _password});
