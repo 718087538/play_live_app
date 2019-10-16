@@ -6,18 +6,25 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:adhara_socket_io/adhara_socket_io.dart';
 import 'package:http/http.dart' as http;
+import 'package:screen/screen.dart';
+
 
 String pppUrl;
 
 class PlayRoom extends StatefulWidget {
+
   PlayRoom({Key key, this.title}) : super(key: key);
   final String title;
-
   @override
   State<StatefulWidget> createState() => new _HomePageState();
 }
 
 class _HomePageState extends State<PlayRoom> {
+
+  line(){
+    Screen.keepOn(true);
+  }
+
   disconnect(String identifier) async {
     await manager.clearInstance(sockets[identifier]);
     setState(() => _isProbablyConnected[identifier] = false);
@@ -54,6 +61,7 @@ class _HomePageState extends State<PlayRoom> {
 //获取路由参数
     var args = ModalRoute.of(context).settings.arguments;
     pppUrl = args;
+    line();
     return new WillPopScope(
         onWillPop: _onWillPop,
         child: Scaffold(
