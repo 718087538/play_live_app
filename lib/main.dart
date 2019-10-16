@@ -214,7 +214,7 @@ Widget _leftInkWel(list, int index, context) {
           padding: EdgeInsets.only(left: 10.0),
           child: Row(children: <Widget>[
             Expanded(
-              child: Text("描述: " + list[index]["description"],
+              child: Text(list[index]["description"],
                   style: TextStyle(
                     fontSize: 20.0,
                   )),
