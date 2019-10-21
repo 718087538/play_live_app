@@ -13,7 +13,6 @@ class Login extends StatelessWidget {
 //    fetchData();
     return Scaffold(
         resizeToAvoidBottomInset: false,
-
         appBar: AppBar(
           title: Text('登录'),
         ),
@@ -27,11 +26,9 @@ class MyForm extends StatefulWidget {
   _MyForm createState() => _MyForm();
 }
 
-
-
 class _MyForm extends State<MyForm> {
 //var _username = new TextEditingController();//这个方法用于初始化赋值,如果不赋值,下面的方法更好
-  String _password2 ="";
+  String _password2 = "";
   String _password = "";
   bool selStatus = true; //用户协议
 
@@ -40,7 +37,6 @@ class _MyForm extends State<MyForm> {
 //    super.initState();
 //    _username.text = '初始值';
 //  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +53,14 @@ class _MyForm extends State<MyForm> {
             height: 20.0,
           ),
           TextField(
+              maxLength: 11,//最长输入字数
+              keyboardType: TextInputType.phone, //键盘类型
+
               decoration: InputDecoration(
+
                   border: OutlineInputBorder(),
-                  hintText: "请输入账号",
-                  labelText: "账号"),
+                  hintText: "请输入手机号",
+                  labelText: "手机号"),
               onChanged: (value) {
                 setState(() {
                   //把文本框的值实时赋给一个变量
@@ -96,19 +96,32 @@ class _MyForm extends State<MyForm> {
             ),
             FlatButton(
               padding: EdgeInsets.only(left: 0.0),
-              child: Text("阅读并同意用户协议!",
+              child: Text(
+                "阅读并同意用户协议!",
                 style: new TextStyle(
-                  color:Colors.lightBlue,
+                  color: Colors.lightBlue,
                 ),
-
               ),
-            onPressed: (){
-              Navigator.pushNamed(context, "readme");
-            },
+              onPressed: () {
+                Navigator.pushNamed(context, "readme");
+              },
             )
           ]),
+          Align(
 
-          SizedBox(height: 20.0),
+            alignment: Alignment.centerRight,
+            child: FlatButton(
+              child: Text(
+                "注册网课账号",
+                style: new TextStyle(
+                  color: Colors.lightBlue,
+                ),
+              ),
+              onPressed: () {
+              Navigator.pushNamed(context, "register");
+              },
+            ),
+          ),
 
           Container(
             width: double.infinity, //让按钮宽度自适应
@@ -146,26 +159,23 @@ fetchData() async {
 }
 
 //用于登录的方法.用到了
-Login2(context, _mobile, _password,recStatus) async {
-
-  if(_mobile  == "" || _password == ""){
+Login2(context, _mobile, _password, recStatus) async {
+  if (_mobile == "" || _password == "") {
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('请输入账号或密码!'),
-        ));
+              title: Text('请输入账号或密码!'),
+            ));
     return false;
   }
 
-
-
-  if(!recStatus){
+  if (!recStatus) {
     print("没有同意同意");
     showDialog(
         context: context,
         builder: (context) => AlertDialog(
-          title: Text('请同意用户协议!'),
-        ));
+              title: Text('请同意用户协议!'),
+            ));
     return false;
   }
 
